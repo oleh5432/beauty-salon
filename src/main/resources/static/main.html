@@ -1,0 +1,200 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Main</title>
+    <link rel="stylesheet" href="css/main.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+</head>
+<body>
+<!-- Trigger/Open The Modal -->
+<button id="openModal">Створити послугу</button>
+
+<!-- The Modal -->
+<div id="myModal" class="modal">
+
+    <!-- Modal content -->
+    <div class="modal-content">
+        <div class="modal-header">
+            <span class="close">&times;</span>
+            <h2>Створити послугу</h2>
+        </div>
+        <div class="modal-body">
+            <div>
+                <form>
+                    <label for="name">Назва послуги</label><br>
+                    <input type="text" id="name" name="name" placeholder="Name.."><br>
+                    <label for="timeMinutes">Тривалість, хв</label><br>
+                    <input type="text" id="timeMinutes" name="timeMinutes" placeholder="Time.."><br>
+                    <label for="startTime">Час початку</label><br>
+                    <input type="text" id="startTime" name="startTime" placeholder="Start Time"><br>
+                    <label for="price">Ціна</label><br>
+                    <input type="number" id="price" name="price" placeholder="Price"><br>
+                    <label for="categoryId">id категорії</label><br>
+                    <input type="number" id="categoryId" name="categoryId" placeholder="Category id"><br>
+                    <input type="button" id="btnCreateProduct" value="Створити">
+                </form>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <h3>Форма для створення нової послуги</h3>
+        </div>
+    </div>
+
+</div>
+
+
+<table id="products">
+    <tr>
+        <th>Назва послуги</th>
+        <th>Тривалість, хв</th>
+        <th>Час початку</th>
+        <th>Ціна, грн</th>
+        <th>Категорія</th>
+        <th>Кнопка для видалення</th>
+    </tr>
+</table>
+
+<script>
+    var mainUrl = "http://localhost:8080";
+
+    getAllProducts();
+    setModalConfiguration();
+    setActionOnCreateBtn();
+
+
+    //start when load page PS reload page for triggered http request
+    function getAllProducts() {
+        $.ajax({
+            url: mainUrl + "/product/page?direction=ASC&fieldName=name&page=0&size=5",
+            type: "GET",
+            contentType: "application/json",
+            success: function (dataResponse) {
+                setProductsToTable(dataResponse.data);
+                setActionOnDeleteButtons();
+            },
+            error: function (error) {
+                alert(error.message);
+            }
+        });
+    }
+
+    function setProductsToTable(products) {
+        for (var i = 0; i < products.length; i++) {
+            setProductToTable(products[i]);
+        }
+    }
+
+    function setProductToTable(product) {
+        var tableOfProducts = $("#products");
+        tableOfProducts.append('<tr>' +
+                '<td>' + product.name + '</td>' +
+                '<td>' + product.timeMinutes + '</td>' +
+                '<td>' + product.startTime + '</td>' +
+                '<td>' + product.price + '</td>' +
+                '<td>' + getCategoryNameByCategoryId(product.categoryId) + '</td>' +
+                '<td><button class="button" value="' + product.id + '">Видалити</button></td>' +
+                '</tr>');
+    }
+
+    function getCategoryNameByCategoryId(categiryId) {
+        $.ajax({
+            url: mainUrl + "/category?id=" + categiryId,
+            type: "GET",
+            contentType: "application/json",
+            success: function (response) {
+                return response.getName();
+            },
+            error: function (error) {
+                alert(error.message);
+            }
+        });
+    }
+
+    //delete process
+    function setActionOnDeleteButtons() {
+        $(".button").each(function (index) {
+            $(this).click(function () {
+                $.ajax({
+                    url: mainUrl + "/product?id=" + $(this).val(),
+                    type: "DELETE",
+                    success: function (data) {
+                        location.reload();
+                    },
+                    error: function (error) {
+                        alert(error.message);
+                    }
+                });
+            })
+        })
+
+    }
+
+    function setActionOnCreateBtn() {
+        $("#btnCreateProduct").click(function () {
+
+            var name = $("#name").val();
+            var timeMinutes = $("#timeMinutes").val();
+            var startTime = $("#startTime").val();
+            var price = $("#price").val();
+            var categoryId = $("#categoryId").val();
+
+//            if (firstName != null && lastName != null && age != null) {
+
+                var newProduct = {
+                    "name": name,
+                    "timeMinutes": timeMinutes,
+                    "startTime": startTime,
+                    "price": price,
+                    "categoryId": categoryId
+                };
+
+                $.ajax({
+                    url: mainUrl + "/product",
+                    type: "POST",
+                    contentType: "application/json",
+                    data: JSON.stringify(newProduct),
+                    success: function (data) {
+                        location.reload();
+                    },
+                    error: function (error) {
+                        alert(error.message);
+                    }
+                });
+//            } else {
+//                alert("Всі поля повинні бути заповнені")
+//            }
+        });
+    }
+
+    function setModalConfiguration() {
+        // Get the modal
+        var modal = document.getElementById('myModal');
+
+        // Get the button that opens the modal
+        var btn = document.getElementById("openModal");
+
+        // Get the <span> element that closes the modal
+        var span = document.getElementsByClassName("close")[0];
+
+        // When the user clicks the button, open the modal
+        btn.onclick = function () {
+            modal.style.display = "block";
+        };
+
+        // When the user clicks on <span> (x), close the modal
+        span.onclick = function () {
+            modal.style.display = "none";
+        };
+
+        // When the user clicks anywhere outside of the modal, close it
+        window.onclick = function (event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        };
+    }
+
+</script>
+</body>
+</html>
