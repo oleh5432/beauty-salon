@@ -26,10 +26,6 @@ public class CategoryController {
         return categoryService.findAll();
     }
 
-    @GetMapping
-    public CategoryResponse findOneById(@RequestParam Long id) throws WrongInputDataException {
-        return new CategoryResponse(categoryService.findOneById(id));
-    }
 
 //    @GetMapping("/page")
 //    public DataResponse<CategoryResponse> findAll(@RequestParam Integer page,

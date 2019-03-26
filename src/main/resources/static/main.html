@@ -92,7 +92,7 @@
                 '<td>' + product.timeMinutes + '</td>' +
                 '<td>' + product.startTime + '</td>' +
                 '<td>' + product.price + '</td>' +
-                '<td>' + getCategoryNameByCategoryId(product.categoryId) + '</td>' +
+                '<td>' + product.categoryName + '</td>' +
                 '<td><button class="button" value="' + product.id + '">Видалити</button></td>' +
                 '</tr>');
     }
@@ -107,6 +107,7 @@
             },
             error: function (error) {
                 alert(error.message);
+                console.log(error)
             }
         });
     }

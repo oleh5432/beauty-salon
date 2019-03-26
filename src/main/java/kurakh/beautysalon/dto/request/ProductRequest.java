@@ -18,7 +18,7 @@ public class ProductRequest {
     @Positive
     private Integer timeMinutes;
 
-    private LocalDateTime startTime;
+    private LocalDateTime startTime = null;
 
     @NotNull
     @Positive
