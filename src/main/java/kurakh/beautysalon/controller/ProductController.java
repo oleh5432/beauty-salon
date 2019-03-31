@@ -35,7 +35,7 @@ public class ProductController {
         return productService.findAll(productFilterRequest);
     }
 
-    @GetMapping("/page_filter")
+    @GetMapping("/page/filter")
     public DataResponse<ProductResponse> findAll(@RequestParam Integer page,
                                                  @RequestParam Integer size,
                                                  @RequestParam(required = false) Sort.Direction direction,

@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;
 
+import java.util.Arrays;
 import java.util.List;
 
 @Repository
@@ -15,6 +16,8 @@ public interface ProductRepository extends JpaRepository<Product, Long>, JpaSpec
 //    List<Product> findAllByNameLikeAndPriceLessThan(String name, Integer maxPrice);
 
     Page<Product> findAllByNameLike(Pageable pageable, String name);
+
+    List<Product> findProductsById(List<Long> productsId);
 
 //    Page<Product> findAll(ProductSpecification productSpecification, Pageable toPageable);
 }

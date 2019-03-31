@@ -57,6 +57,10 @@ public class ProductService {
                 .collect(Collectors.toList());
     }
 
+    public List<Product> findProductsById(List<Long> productsId) {
+        return productRepository.findProductsById(productsId);
+    }
+
     public DataResponse<ProductResponse> findAll(Integer page, Integer size, String fieldName, Sort.Direction direction, String name) {
         if (direction == null) {
             direction = Sort.Direction.ASC;
@@ -95,4 +99,5 @@ public class ProductService {
                 .orElseThrow(() -> new WrongInputDataException("Product with id '" + id + "' not exists"));
 
     }
+
 }

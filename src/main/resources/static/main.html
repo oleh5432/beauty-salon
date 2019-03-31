@@ -97,21 +97,6 @@
                 '</tr>');
     }
 
-    function getCategoryNameByCategoryId(categiryId) {
-        $.ajax({
-            url: mainUrl + "/category?id=" + categiryId,
-            type: "GET",
-            contentType: "application/json",
-            success: function (response) {
-                return response.getName();
-            },
-            error: function (error) {
-                alert(error.message);
-                console.log(error)
-            }
-        });
-    }
-
     //delete process
     function setActionOnDeleteButtons() {
         $(".button").each(function (index) {

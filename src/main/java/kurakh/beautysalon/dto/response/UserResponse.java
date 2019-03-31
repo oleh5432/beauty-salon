@@ -1,5 +1,7 @@
 package kurakh.beautysalon.dto.response;
 
+import kurakh.beautysalon.entity.Product;
+import kurakh.beautysalon.entity.User;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -15,5 +17,10 @@ public class UserResponse {
 
     private String email;
 
-    private String login;
+    public UserResponse (User user) {
+        id = user.getId();
+        name = user.getName();
+        phoneNumber = user.getPhoneNumber();
+        email = user.getEmail();
+    }
 }
