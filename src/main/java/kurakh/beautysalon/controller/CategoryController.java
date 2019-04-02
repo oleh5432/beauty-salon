@@ -2,9 +2,11 @@ package kurakh.beautysalon.controller;
 
 import kurakh.beautysalon.dto.request.CategoryRequest;
 import kurakh.beautysalon.dto.response.CategoryResponse;
+import kurakh.beautysalon.dto.response.DataResponse;
 import kurakh.beautysalon.exception.WrongInputDataException;
 import kurakh.beautysalon.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -27,15 +29,15 @@ public class CategoryController {
     }
 
 
-//    @GetMapping("/page")
-//    public DataResponse<CategoryResponse> findAll(@RequestParam Integer page,
-//                                                 @RequestParam Integer size,
-//                                                 @RequestParam(required = false) Sort.Direction direction,
-//                                                 @RequestParam(required = false) String fieldName,
-//                                                 @RequestParam(required = false) String name
-//    ) {
-//        return categoryService.findAll(page, size, fieldName, direction, name);
-//    }
+    @GetMapping("/page")
+    public DataResponse<CategoryResponse> findAll(@RequestParam Integer page,
+                                                  @RequestParam Integer size,
+                                                  @RequestParam(required = false) Sort.Direction direction,
+                                                  @RequestParam(required = false) String fieldName,
+                                                  @RequestParam(required = false) String name
+    ) {
+        return categoryService.findAll(page, size, fieldName, direction, name);
+    }
 
     @PutMapping
     public CategoryResponse update(@RequestParam Long id,
@@ -47,6 +49,4 @@ public class CategoryController {
     public void delete(@RequestParam Long id) throws WrongInputDataException {
         categoryService.delete(id);
     }
-
-
 }

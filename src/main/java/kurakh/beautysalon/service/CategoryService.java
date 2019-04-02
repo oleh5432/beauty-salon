@@ -52,24 +52,24 @@ public class CategoryService {
         categoryRepository.delete(category);
     }
 
-//    public DataResponse<CategoryResponse> findAll(Integer page, Integer size, String fieldName, Sort.Direction direction, String name) {
-//        if (direction == null) {
-//            direction = Sort.Direction.ASC;
-//        }
-//        if (fieldName == null) {
-//            fieldName = "id";
-//        }
-//
-//        Page<Category> categoriesPage = name == null ?
-//                categoryRepository.findAll(PageRequest.of(page, size, direction, fieldName)) :
-//                categoryRepository.findAllByNameLike(PageRequest.of(page, size, direction, fieldName), '%' + name + '%');
-//
-//        return new DataResponse<>(
-//                categoriesPage.get().map(CategoryResponse::new).collect(Collectors.toList()),
-//                categoriesPage.getTotalPages(),
-//                categoriesPage.getTotalElements()
-//        );
-//    }
+    public DataResponse<CategoryResponse> findAll(Integer page, Integer size, String fieldName, Sort.Direction direction, String name) {
+        if (direction == null) {
+            direction = Sort.Direction.ASC;
+        }
+        if (fieldName == null) {
+            fieldName = "id";
+        }
+
+        Page<Category> categoriesPage = name == null ?
+                categoryRepository.findAll(PageRequest.of(page, size, direction, fieldName)) :
+                categoryRepository.findAllByNameLike(PageRequest.of(page, size, direction, fieldName), '%' + name + '%');
+
+        return new DataResponse<>(
+                categoriesPage.get().map(CategoryResponse::new).collect(Collectors.toList()),
+                categoriesPage.getTotalPages(),
+                categoriesPage.getTotalElements()
+        );
+    }
 
     public Category findOneByName(String name) throws WrongInputDataException {
         return categoryRepository.findByName(name)

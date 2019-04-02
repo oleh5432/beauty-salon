@@ -43,22 +43,22 @@ div {
     padding: 20px;
 }
 
-#products {
+#products, #categories {
     font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
     border-collapse: collapse;
     width: 100%;
 }
 
-#products td, #products th {
+#products td, #products th, #categories td, #categories th {
     border: 1px solid #ddd;
     padding: 8px;
 }
 
-#products tr:nth-child(even){background-color: #f2f2f2;}
+#products tr:nth-child(even), #categories tr:nth-child(even){background-color: #f2f2f2;}
 
-#products tr:hover {background-color: #ddd;}
+#products tr:hover, #categories tr:hover {background-color: #ddd;}
 
-#products th {
+#products th, #categories th  {
     padding-top: 12px;
     padding-bottom: 12px;
     text-align: left;
@@ -66,7 +66,7 @@ div {
     color: white;
 }
 
-.button , #openModal{
+.button , #openModal, #selectCategory{
     background-color: red; /* Green */
     border: none;
     color: white;
@@ -78,7 +78,7 @@ div {
     margin: 4px 2px;
     cursor: pointer;
 }
-#openModal {
+#openModal, #selectCategory {
     background-color: forestgreen;
 }
 
