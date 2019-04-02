@@ -1,5 +1,6 @@
 package kurakh.beautysalon.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.*;
 
 import javax.persistence.*;
@@ -24,6 +25,7 @@ public class Product {
 
     private Integer timeMinutes;
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime startTime;
 
     private Integer price;

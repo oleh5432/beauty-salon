@@ -1,5 +1,6 @@
 package kurakh.beautysalon.dto.request;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -18,7 +19,10 @@ public class ProductRequest {
     @Positive
     private Integer timeMinutes;
 
-    private LocalDateTime startTime = null;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime startTime
+//            = null
+           ;
 
     @NotNull
     @Positive

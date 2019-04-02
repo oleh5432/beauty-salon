@@ -1,5 +1,6 @@
 package kurakh.beautysalon.dto.response;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import kurakh.beautysalon.entity.Product;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,6 +18,7 @@ public class ProductResponse {
 
     private Integer timeMinutes;
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime startTime;
 
     private Integer price;
