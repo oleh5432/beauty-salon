@@ -1,0 +1,148 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Категорії</title>
+    <link rel="stylesheet" href="css/main.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+</head>
+<body>
+
+    <a href="/"><button id="backToListProducts">Головна</button></a><br>
+    <!-- Trigger/Open The Modal -->
+
+    <!--<button id="openModalCreateCategory">Створити категорію</button>-->
+    <br>
+    <div>
+        <form>
+            <label for="nameCategory">Назва категорії </label>
+            <input type="text" id="nameCategory" name="name" placeholder="Name..">
+            <input type="button" id="buttonCreateCategory" value="Створити">
+        </form>
+    </div>
+
+
+    <!-- The Modal -->
+
+    <!--<div id="мodalCreateCategory" class="modal">-->
+
+    <!--    &lt;!&ndash; Modal content &ndash;&gt;-->
+    <!--    <div class="modal-content">-->
+    <!--        <div class="modal-header">-->
+    <!--            <span id="closeModalCreateCategory" class="close">&times;</span>-->
+    <!--            <h2>Створити категорію</h2>-->
+    <!--        </div>-->
+    <!--        <div class="modal-body">-->
+    <!--            <div>-->
+    <!--                <form>-->
+    <!--                    <label for="name">Назва категорії</label><br>-->
+    <!--                    <input type="text" id="name" name="name" placeholder="Name.."><br>-->
+    <!--                    <input type="button" id="btnCreateCategory" value="Створити">-->
+    <!--                </form>-->
+    <!--            </div>-->
+    <!--        </div>-->
+    <!--        <div class="modal-footer">-->
+    <!--            <h3>Форма для створення нової категорії</h3>-->
+    <!--        </div>-->
+    <!--    </div>-->
+    <!--</div>-->
+
+    <table id="categoriesAll">
+        <thead>
+        <tr>
+            <th>id категорії</th>
+            <th>Назва категорії</th>
+            <th>Кнопка для видалення</th>
+        </tr>
+        </thead>
+        <tbody id="allElements"></tbody>
+    </table>
+
+    <!--<script src="script.js"></script>-->
+    <script>
+        var mainUrl = "http://localhost:8080";
+
+        getAllCreatedCategories();
+        setActionOnCreateCategoryBtn();
+
+        // start when load page PS reload page for triggered http request
+        function getAllCreatedCategories() {
+            $.ajax({
+                url: mainUrl + "/category/page?direction=ASC&fieldName=name&page=0&size=100",
+                type: "GET",
+                contentType: "application/json",
+                success: function (dataResponse) {
+                    setCreatedCategoriesToTable(dataResponse.data);
+                    setActionOnDeleteButtonsCategory();
+                },
+                error: function (error) {
+                    console.log(error.message);
+                }
+            });
+        }
+
+        function setCreatedCategoriesToTable(categories) {
+            for (var i = 0; i < categories.length; i++) {
+                setCreatedCategoryToTable(categories[i]);
+            }
+        }
+
+        function setCreatedCategoryToTable(category) {
+            var tableOfCategories = $("#allElements");
+            tableOfCategories.append('<tr>' +
+                '<td>' + category.id + '</td>' +
+                '<td>' + category.name + '</td>' +
+                '<td><button class="button" id="buttonDeleteCategory" value="' + category.id + '">Видалити</button></td>' +
+                '</tr>');
+        }
+
+        //delete process
+        function setActionOnDeleteButtonsCategory() {
+            $(".button").each(function (index) {
+                $(this).click(function () {
+                    $.ajax({
+                        url: mainUrl + "/category?id=" + $(this).val(),
+                        type: "DELETE",
+                        success: function (data) {
+                            location.reload();
+                        },
+                        error: function (error) {
+                            console.log(error.message);
+                        }
+                    });
+                })
+            })
+
+        }
+
+        function setActionOnCreateCategoryBtn() {
+            $("#buttonCreateCategory").click(function () {
+
+                var name = $("#nameCategory").val();
+
+                var newCategory = {
+                    "name": name
+                };
+
+                $.ajax({
+                    url: mainUrl + "/category",
+                    type: "POST",
+                    contentType: "application/json",
+                    data: JSON.stringify(newCategory),
+                    success: function (data) {
+                        location.reload();
+                    },
+                    error: function (error) {
+                        console.log(error.message);
+                    }
+                });
+//            } else {
+//                alert("Всі поля повинні бути заповнені")
+//            }
+            });
+        }
+
+    </script>
+</body>
+</html>
+

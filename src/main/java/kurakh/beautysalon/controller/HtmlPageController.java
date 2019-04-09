@@ -10,4 +10,9 @@ public class HtmlPageController {
     public String mainPage(){
         return "main.html";
     }
+
+    @RequestMapping("/create-category")
+    public String categoryPage(){
+        return "adminCategoryPage.html";
+    }
 }

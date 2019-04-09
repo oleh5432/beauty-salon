@@ -1,15 +1,17 @@
 var mainUrl = "http://localhost:8080";
 
 getAllProducts();
+
 setModalConfiguration();
 setModalCategoryConfiguration()
+
 setActionOnCreateBtn();
 
 
 //start when load page PS reload page for triggered http request
 function getAllProducts() {
     $.ajax({
-        url: mainUrl + "/product/page?direction=ASC&fieldName=name&page=0&size=5",
+        url: mainUrl + "/product/page?direction=ASC&fieldName=name&page=0&size=1000",
         type: "GET",
         contentType: "application/json",
         success: function (dataResponse) {
@@ -17,7 +19,7 @@ function getAllProducts() {
             setActionOnDeleteButtons();
         },
         error: function (error) {
-            alert(error.message);
+            console.log(error.message);
         }
     });
 }
@@ -51,7 +53,7 @@ function setActionOnDeleteButtons() {
                     location.reload();
                 },
                 error: function (error) {
-                    alert(error.message);
+                    console.log(error.message);
                 }
             });
         })
@@ -85,7 +87,7 @@ function setActionOnCreateBtn() {
                 location.reload();
             },
             error: function (error) {
-                alert(error.message);
+                console.log(error.message);
             }
         });
 //            } else {
@@ -96,7 +98,7 @@ function setActionOnCreateBtn() {
 
 function getAllCategories() {
     $.ajax({
-        url: mainUrl + "/category/page?direction=ASC&fieldName=name&page=0&size=5",
+        url: mainUrl + "/category/page?direction=ASC&fieldName=name&page=0&size=100",
         type: "GET",
         contentType: "application/json",
         success: function (dataResponse) {
@@ -105,7 +107,7 @@ function getAllCategories() {
             // setActionOnDeleteButtons();
         },
         error: function (error) {
-            alert(error.message);
+            console.log(error.message);
         }
     });
 }
@@ -124,6 +126,15 @@ function setCategoryToTable(category) {
         '<td>' + category.name + '</td>' +
         '<td><button class="button" value="' + category.id + '">Вибрати</button></td>' +
         '</tr>');
+}
+
+function setActionOnSelectCategoryButtons() {
+    $(".button").each(function (index) {
+        $(this).click(function () {
+            $('#categoryId').val($(this).val());
+            document.getElementById('modalCategory').style.display = "none";
+        })
+    })
 }
 
 function setModalConfiguration() {
@@ -183,11 +194,54 @@ function setModalCategoryConfiguration() {
     };
 }
 
-function setActionOnSelectCategoryButtons() {
-    $(".button").each(function (index) {
-        $(this).click(function () {
-            $('#categoryId').val($(this).val());
-            document.getElementById('modalCategory').style.display = "none";
-        })
-    })
-}
+
+// // CreatedCategories
+// // start when load page PS reload page for triggered http request
+// function getAllCreatedCategories() {
+//     $.ajax({
+//         url: mainUrl + "/category/page?direction=ASC&fieldName=name&page=0&size=100",
+//         type: "GET",
+//         contentType: "application/json",
+//         success: function (dataResponse) {
+//             setCreatedCategoriesToTable(dataResponse.data);
+//             setActionOnDeleteButtonsCategory();
+//         },
+//         error: function (error) {
+//             console.log(error.message);
+//         }
+//     });
+// }
+//
+// function setCreatedCategoriesToTable(categories) {
+//     for (var i = 0; i < categories.length; i++) {
+//         setCreatedCategoryToTable(categories[i]);
+//     }
+// }
+//
+// function setCreatedCategoryToTable(category) {
+//     var tableOfCategories = $("#allElements");
+//     tableOfCategories.append('<tr>' +
+//         '<td>' + category.id + '</td>' +
+//         '<td>' + category.name + '</td>' +
+//         '<td><button class="button" id="buttonDeleteCategory" value="' + category.id + '">Видалити</button></td>' +
+//         '</tr>');
+// }
+//
+// //delete process
+// function setActionOnDeleteButtonsCategory() {
+//     $(".button").each(function (index) {
+//         $(this).click(function () {
+//             $.ajax({
+//                 url: mainUrl + "/category?id=" + $(this).val(),
+//                 type: "DELETE",
+//                 success: function (data) {
+//                     location.reload();
+//                 },
+//                 error: function (error) {
+//                     console.log(error.message);
+//                 }
+//             });
+//         })
+//     })
+//
+// }
