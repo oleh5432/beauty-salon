@@ -42,7 +42,7 @@ public class ProductService {
         product.setPrice(productRequest.getPrice());
         product.setName(productRequest.getName());
         product.setTimeMinutes(productRequest.getTimeMinutes());
-        product.setStartTime(productRequest.getStartTime());
+//        product.setStartTime(productRequest.getStartTime());
         product.setCategory(categoryService.findOneById(productRequest.getCategoryId()));
         return product;
     }

@@ -35,7 +35,7 @@ function setProductToTable(product) {
     tableOfProducts.append('<tr>' +
         '<td>' + product.name + '</td>' +
         '<td>' + product.timeMinutes + '</td>' +
-        '<td>' + product.startTime + '</td>' +
+        // '<td>' + product.startTime + '</td>' +
         '<td>' + product.price + '</td>' +
         '<td>' + product.categoryName + '</td>' +
         '<td><button class="button" value="' + product.id + '">Видалити</button></td>' +
@@ -66,14 +66,14 @@ function setActionOnCreateBtn() {
 
         var name = $("#name").val();
         var timeMinutes = $("#timeMinutes").val();
-        var startTime = $("#startTime").val();
+        // var startTime = $("#startTime").val();
         var price = $("#price").val();
         var categoryId = $("#categoryId").val();
 
         var newProduct = {
             "name": name,
             "timeMinutes": timeMinutes,
-            "startTime": startTime,
+            // "startTime": startTime,
             "price": price,
             "categoryId": categoryId
         };
@@ -193,55 +193,3 @@ function setModalCategoryConfiguration() {
         }
     };
 }
-
-
-// // CreatedCategories
-// // start when load page PS reload page for triggered http request
-// function getAllCreatedCategories() {
-//     $.ajax({
-//         url: mainUrl + "/category/page?direction=ASC&fieldName=name&page=0&size=100",
-//         type: "GET",
-//         contentType: "application/json",
-//         success: function (dataResponse) {
-//             setCreatedCategoriesToTable(dataResponse.data);
-//             setActionOnDeleteButtonsCategory();
-//         },
-//         error: function (error) {
-//             console.log(error.message);
-//         }
-//     });
-// }
-//
-// function setCreatedCategoriesToTable(categories) {
-//     for (var i = 0; i < categories.length; i++) {
-//         setCreatedCategoryToTable(categories[i]);
-//     }
-// }
-//
-// function setCreatedCategoryToTable(category) {
-//     var tableOfCategories = $("#allElements");
-//     tableOfCategories.append('<tr>' +
-//         '<td>' + category.id + '</td>' +
-//         '<td>' + category.name + '</td>' +
-//         '<td><button class="button" id="buttonDeleteCategory" value="' + category.id + '">Видалити</button></td>' +
-//         '</tr>');
-// }
-//
-// //delete process
-// function setActionOnDeleteButtonsCategory() {
-//     $(".button").each(function (index) {
-//         $(this).click(function () {
-//             $.ajax({
-//                 url: mainUrl + "/category?id=" + $(this).val(),
-//                 type: "DELETE",
-//                 success: function (data) {
-//                     location.reload();
-//                 },
-//                 error: function (error) {
-//                     console.log(error.message);
-//                 }
-//             });
-//         })
-//     })
-//
-// }

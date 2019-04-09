@@ -18,8 +18,8 @@ public class ProductResponse {
 
     private Integer timeMinutes;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime startTime;
+//    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
+//    private LocalDateTime startTime;
 
     private Integer price;
 
@@ -29,7 +29,7 @@ public class ProductResponse {
         id = product.getId();
         name = product.getName();
         timeMinutes = product.getTimeMinutes();
-        startTime = product.getStartTime();
+//        startTime = product.getStartTime();
         price = product.getPrice();
         if(product.getCategory() != null)
             categoryName = product.getCategory().getName();
