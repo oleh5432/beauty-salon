@@ -7,9 +7,15 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 </head>
 <body>
-
-    <a href="/"><button id="backToListProducts">Головна</button></a><br>
+    <div class="menu">
+        <a href="/"><button class="menu-button" id="openMain">Головна</button></a>
+        <a href="/admin"><button class="menu-button" id="openAdmin">Адміністратор</button></a>
+    </div>
     <br>
+    <div class="menu">
+        <a href="/create-product"><button class="menu-button" id="openCreateProduct">Створити послугу</button></a>
+        <a href="/create-category"><button class="menu-button" id="openCreateCategory">Створити категорію</button></a>
+    </div>
     <div>
         <form>
             <label for="nameCategory">Назва категорії </label>

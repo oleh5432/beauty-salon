@@ -1,0 +1,101 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Послуги</title>
+    <link rel="stylesheet" href="css/main.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+</head>
+<body>
+    <div class="menu">
+        <a href="/"><button class="menu-button" id="openMain">Головна</button></a>
+        <a href="/admin"><button class="menu-button" id="openAdmin">Адміністратор</button></a>
+    </div>
+    <br>
+    <div class="menu">
+        <a href="/create-product"><button class="menu-button" id="openCreateProduct">Створити послугу</button></a>
+        <a href="/create-category"><button class="menu-button" id="openCreateCategory">Створити категорію</button></a>
+    </div>
+    <!-- Trigger/Open The Modal -->
+    <button id="openModal">Створити послугу</button>
+
+    <!-- The Modal -->
+    <div id="myModal" class="modal">
+
+        <!-- Modal content -->
+        <div class="modal-content">
+            <div class="modal-header">
+                <span class="close">&times;</span>
+                <h2>Створити послугу</h2>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <form>
+                        <label for="name">Назва послуги</label><br>
+                        <input type="text" id="name" name="name" placeholder="Name.."><br>
+                        <label for="timeMinutes">Тривалість, хв</label><br>
+                        <input type="text" id="timeMinutes" name="timeMinutes" placeholder="Time.."><br>
+<!--                        <label for="startTime">Час початку</label><br>-->
+<!--                        <input type="text" id="startTime" name="startTime" placeholder="Start Time"><br>-->
+                        <label for="price">Ціна</label><br>
+                        <input type="number" id="price" name="price" placeholder="Price"><br>
+                        <label for="categoryId">id категорії</label><br>
+                        <input type="number" id="categoryId" name="categoryId" placeholder="Category id">
+                        <input type="button" id="selectCategory" value="Вибрати категорію"><br>
+                        <input type="button" id="btnCreateProduct" value="Створити">
+                    </form>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <h3>Форма для створення нової послуги</h3>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- The Modal -->
+    <div id="modalCategory" class="modal">
+
+        <!-- Modal content -->
+        <div class="modal-content">
+            <div class="modal-header">
+                <span id="closeModalCategory" class="close">&times;</span>
+                <h2>Вибрати категорію</h2>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <table id="categories">
+                        <thead>
+                            <tr>
+                                <th>id категорії</th>
+                                <th>Назва категорії</th>
+                                <th>Кнопка для вибору</th>
+                            </tr>
+                        </thead>
+                        <tbody id="elements"></tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <h3>Форма для вибору категорії</h3>
+            </div>
+        </div>
+
+    </div>
+
+    <table id="products">
+        <tr>
+            <th>Назва послуги</th>
+            <th>Тривалість, хв</th>
+<!--            <th>Час початку</th>-->
+            <th>Ціна, грн</th>
+            <th>Категорія</th>
+            <th>Кнопка для видалення</th>
+        </tr>
+    </table>
+
+<!--    <input type="date">-->
+<!--    <span></span>-->
+    <script src="script.js"></script>
+</body>
+</html>

@@ -66,7 +66,7 @@ form, #products, #categories, #categoriesAll {
     color: white;
 }
 
-.button , #openModal, #selectCategory, #openCreateCategory, #openModalCreateCategory, #backToListProducts{
+.button, .menu-button, #openModal, #selectCategory{
     background-color: red; /* Green */
     border: none;
     color: white;
@@ -78,7 +78,7 @@ form, #products, #categories, #categoriesAll {
     margin: 4px 2px;
     cursor: pointer;
 }
-#openModal, #selectCategory, #openCreateCategory, #openModalCreateCategory, #backToListProducts {
+.menu-button, #openModal, #selectCategory{
     background-color: forestgreen;
 }
 

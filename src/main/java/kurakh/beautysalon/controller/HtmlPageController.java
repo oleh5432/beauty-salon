@@ -11,6 +11,16 @@ public class HtmlPageController {
         return "main.html";
     }
 
+    @RequestMapping("/admin")
+    public String adminPage(){
+        return "adminPage.html";
+    }
+
+    @RequestMapping("/create-product")
+    public String productPage(){
+        return "adminProductPage.html";
+    }
+
     @RequestMapping("/create-category")
     public String categoryPage(){
         return "adminCategoryPage.html";
