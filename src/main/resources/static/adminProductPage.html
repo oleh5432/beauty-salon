@@ -18,7 +18,7 @@
     </div>
     <!-- Trigger/Open The Modal -->
     <button id="openModal">Створити послугу</button>
-    <button id="openModalUpdate">Оновити послугу</button>
+<!--    <button id="openModalUpdate">Оновити послугу</button>-->
 
     <!-- The Modal Create-->
     <div id="myModal" class="modal">
@@ -26,7 +26,7 @@
         <!-- Modal content -->
         <div class="modal-content">
             <div class="modal-header">
-                <span class="close">&times;</span>
+                <span id="closeModal" class="close">&times;</span>
                 <h2>Створити послугу</h2>
             </div>
             <div class="modal-body">
@@ -92,7 +92,7 @@
         <!-- Modal content -->
         <div class="modal-content">
             <div class="modal-header">
-                <span class="close">&times;</span>
+                <span id="closeModalUpdate" class="close">&times;</span>
                 <h2>Оновити послугу</h2>
             </div>
             <div class="modal-body">
@@ -100,15 +100,15 @@
                     <form>
                         <label for="productId">id послуги</label><br>
                         <input type="text" id="productId" name="productId" placeholder="Name.."><br>
-                        <label for="name">Назва послуги</label><br>
+                        <label for="nameUpdate">Назва послуги</label><br>
                         <input type="text" id="nameUpdate" name="name" placeholder="Name.."><br>
-                        <label for="timeMinutes">Тривалість, хв</label><br>
+                        <label for="timeMinutesUpdate">Тривалість, хв</label><br>
                         <input type="text" id="timeMinutesUpdate" name="timeMinutes" placeholder="Time.."><br>
                         <!--                        <label for="startTime">Час початку</label><br>-->
                         <!--                        <input type="text" id="startTime" name="startTime" placeholder="Start Time"><br>-->
-                        <label for="price">Ціна</label><br>
+                        <label for="priceUpdate">Ціна</label><br>
                         <input type="number" id="priceUpdate" name="price" placeholder="Price"><br>
-                        <label for="categoryId">id категорії</label><br>
+                        <label for="categoryIdUpdate">id категорії</label><br>
                         <input type="number" id="categoryIdUpdate" name="categoryId" placeholder="Category id">
                         <input type="button" id="selectCategoryUpdate" value="Вибрати категорію"><br>
                         <!--                        <input type="number" id="img" name="img" placeholder="img">-->
