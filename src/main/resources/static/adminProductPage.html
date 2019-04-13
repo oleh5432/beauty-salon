@@ -18,8 +18,9 @@
     </div>
     <!-- Trigger/Open The Modal -->
     <button id="openModal">Створити послугу</button>
+<!--    <button id="openModalUpdate">Оновити послугу</button>-->
 
-    <!-- The Modal -->
+    <!-- The Modal Create-->
     <div id="myModal" class="modal">
 
         <!-- Modal content -->
@@ -42,6 +43,8 @@
                         <label for="categoryId">id категорії</label><br>
                         <input type="number" id="categoryId" name="categoryId" placeholder="Category id">
                         <input type="button" id="selectCategory" value="Вибрати категорію"><br>
+<!--                        <input type="number" id="img" name="img" placeholder="img">-->
+<!--                        <input type="button" id="selectImg" value="Вибрати зображення"><br>-->
                         <input type="button" id="btnCreateProduct" value="Створити">
                     </form>
                 </div>
@@ -90,12 +93,14 @@
 <!--            <th>Час початку</th>-->
             <th>Ціна, грн</th>
             <th>Категорія</th>
+<!--            <th>Зображення</th>-->
             <th>Кнопка для видалення</th>
+            <th>Кнопка для оновлення</th>
         </tr>
     </table>
 
 <!--    <input type="date">-->
 <!--    <span></span>-->
-    <script src="script.js"></script>
+    <script src="scriptAdminProductPage.js"></script>
 </body>
 </html>
