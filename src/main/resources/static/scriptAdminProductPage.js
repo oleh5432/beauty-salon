@@ -3,7 +3,11 @@ var mainUrl = "http://localhost:8080";
 getAllProducts();
 
 setModalConfiguration();
-setModalCategoryConfiguration()
+setModalCategoryConfiguration();
+// setModalUpdateConfiguration();
+
+setActionOnUpdateProductButtons();
+setActionOnUpdateButton();
 
 setActionOnCreateBtn();
 
@@ -17,6 +21,7 @@ function getAllProducts() {
         success: function (dataResponse) {
             setProductsToTable(dataResponse.data);
             setActionOnDeleteButtons();
+            setActionOnUpdateProductButtons();
         },
         error: function (error) {
             console.log(error.message);
@@ -139,14 +144,15 @@ function setActionOnCreateBtn() {
     });
 }
 
-// function setActionOnUpdateProductButtons() {
-//     $(".buttonUpdate").each(function (index) {
-//         $(this).click(function () {
-//             // $('#categoryId').val($(this).val());
-//             // document.getElementById('modalCategory').style.display = "none";
-//         })
-//     })
-// }
+function setActionOnUpdateProductButtons() {
+    $(".buttonUpdate").each(function (index) {
+        $(this).click(function () {
+            $('#productId').val($(this).val());
+            // дописати функацію яка повертає один продукт за id, щоб можна було відразу підставити при кліку в інпути старі значення
+            document.getElementById('modalUpdate').style.display = "block";
+        })
+    })
+}
 
 function getAllCategories() {
     $.ajax({
@@ -245,3 +251,5 @@ function setModalCategoryConfiguration() {
         }
     };
 }
+
+//конфіг для модального вікна оновлення

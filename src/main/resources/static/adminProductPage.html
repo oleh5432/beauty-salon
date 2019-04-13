@@ -18,7 +18,7 @@
     </div>
     <!-- Trigger/Open The Modal -->
     <button id="openModal">Створити послугу</button>
-<!--    <button id="openModalUpdate">Оновити послугу</button>-->
+    <button id="openModalUpdate">Оновити послугу</button>
 
     <!-- The Modal Create-->
     <div id="myModal" class="modal">
@@ -56,7 +56,7 @@
 
     </div>
 
-    <!-- The Modal -->
+    <!-- The Modal Select Category-->
     <div id="modalCategory" class="modal">
 
         <!-- Modal content -->
@@ -81,6 +81,44 @@
             </div>
             <div class="modal-footer">
                 <h3>Форма для вибору категорії</h3>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- The Modal update-->
+    <div id="modalUpdate" class="modal">
+
+        <!-- Modal content -->
+        <div class="modal-content">
+            <div class="modal-header">
+                <span class="close">&times;</span>
+                <h2>Оновити послугу</h2>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <form>
+                        <label for="productId">id послуги</label><br>
+                        <input type="text" id="productId" name="productId" placeholder="Name.."><br>
+                        <label for="name">Назва послуги</label><br>
+                        <input type="text" id="nameUpdate" name="name" placeholder="Name.."><br>
+                        <label for="timeMinutes">Тривалість, хв</label><br>
+                        <input type="text" id="timeMinutesUpdate" name="timeMinutes" placeholder="Time.."><br>
+                        <!--                        <label for="startTime">Час початку</label><br>-->
+                        <!--                        <input type="text" id="startTime" name="startTime" placeholder="Start Time"><br>-->
+                        <label for="price">Ціна</label><br>
+                        <input type="number" id="priceUpdate" name="price" placeholder="Price"><br>
+                        <label for="categoryId">id категорії</label><br>
+                        <input type="number" id="categoryIdUpdate" name="categoryId" placeholder="Category id">
+                        <input type="button" id="selectCategoryUpdate" value="Вибрати категорію"><br>
+                        <!--                        <input type="number" id="img" name="img" placeholder="img">-->
+                        <!--                        <input type="button" id="selectImg" value="Вибрати зображення"><br>-->
+                        <input type="button" id="btnUpdateButton" value="Оновити">
+                    </form>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <h3>Форма для новлення послуги</h3>
             </div>
         </div>
 
