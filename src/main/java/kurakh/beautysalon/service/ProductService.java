@@ -100,4 +100,7 @@ public class ProductService {
 
     }
 
+    public ProductResponse findById(Long id) throws WrongInputDataException {
+        return new ProductResponse(findOneById(id));
+    }
 }

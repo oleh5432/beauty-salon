@@ -30,6 +30,11 @@ public class ProductController {
         return productService.findAll();
     }
 
+    @GetMapping("/findById")
+    public ProductResponse findById(@RequestParam @Valid Long id) throws WrongInputDataException {
+        return productService.findById(id);
+    }
+
     @PostMapping("/page")
     public DataResponse<ProductResponse> findAll(@RequestBody ProductFilterRequest productFilterRequest) {
         return productService.findAll(productFilterRequest);

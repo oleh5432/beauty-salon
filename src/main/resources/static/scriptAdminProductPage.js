@@ -72,6 +72,7 @@ function setActionOnDeleteButtons() {
 function setActionOnUpdateButton() {
     $("#btnUpdateButton").click(function () {
 
+        var productId = $("#productId").val();
         var name = $("#nameUpdate").val();
         var timeMinutes = $("#timeMinutesUpdate").val();
         // var startTime = $("#startTime").val();
@@ -84,12 +85,12 @@ function setActionOnUpdateButton() {
             "timeMinutes": timeMinutes,
             // "startTime": startTime,
             "price": price,
-            "categoryId": categoryId,
+            "categoryId": categoryId
             // "img": img
         };
 
         $.ajax({
-            // url: mainUrl + "/product?id=" + $(#productId).val(),
+            url: mainUrl + "/product?id=" + productId,
             type: "PUT",
             contentType: "application/json",
             data: JSON.stringify(newProduct),
@@ -149,9 +150,37 @@ function setActionOnUpdateProductButtons() {
         $(this).click(function () {
             $('#productId').val($(this).val());
             // дописати функацію яка повертає один продукт за id, щоб можна було відразу підставити при кліку в інпути старі значення
+            var product = getById($(this).val());
+            $("#nameUpdate").val(product.name);
+            $("#timeMinutesUpdate").val(product.timeMinutes);
+            $("#priceUpdate").val(product.price);
+            $("#categoryIdUpdate").val(product.categoryId);
             document.getElementById('modalUpdate').style.display = "block";
         })
     })
+}
+
+function getById(id) {
+    var newProduct = {};
+    $.ajax({
+        url: mainUrl + "/product/findById?id=" + id,
+        type: "GET",
+        contentType: "application/json",
+        success: function (product) {
+           newProduct = {
+                "name": product.name,
+                "timeMinutes": product.timeMinutes,
+                // "startTime": startTime,
+                "price": product.price,
+                "categoryId": product.categoryId
+                // "img": img
+            };
+        },
+        error: function (error) {
+            console.log(error.message);
+        }
+    });
+    return newProduct;
 }
 
 function getAllCategories() {
