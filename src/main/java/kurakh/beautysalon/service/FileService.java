@@ -15,7 +15,7 @@ public class FileService {
 
     public static final String IMG_DIR =
             System.getProperty("user.home") + File.separator +
-                    "dealer-images" + File.separator;
+                    "beauty-images" + File.separator;
 
     public String saveFile(FileRequest request) throws IOException {
         createDir(IMG_DIR);

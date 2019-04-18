@@ -1,16 +1,19 @@
 package kurakh.beautysalon.controller;
 
+import kurakh.beautysalon.dto.request.FileRequest;
 import kurakh.beautysalon.dto.request.ProductFilterRequest;
 import kurakh.beautysalon.dto.request.ProductRequest;
 import kurakh.beautysalon.dto.response.DataResponse;
 import kurakh.beautysalon.dto.response.ProductResponse;
 import kurakh.beautysalon.exception.WrongInputDataException;
+import kurakh.beautysalon.service.FileService;
 import kurakh.beautysalon.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -20,8 +23,17 @@ public class ProductController {
     @Autowired
     private ProductService productService;
 
+    @Autowired
+    private FileService fileService;
+
+    @PostMapping("/upload")
+    public String upload(@RequestBody FileRequest fileRequest) throws IOException {
+        String filePath = fileService.saveFile(fileRequest);
+        return filePath;
+    }
+
     @PostMapping
-    public ProductResponse save(@RequestBody @Valid ProductRequest productRequest) throws WrongInputDataException {
+    public ProductResponse save(@RequestBody @Valid ProductRequest productRequest) throws WrongInputDataException, IOException {
         return productService.save(productRequest);
     }
 
@@ -68,7 +80,7 @@ public class ProductController {
 
     @PutMapping
     public ProductResponse update(@RequestParam @Valid Long id,
-                              @RequestBody ProductRequest productRequest) throws WrongInputDataException {
+                              @RequestBody ProductRequest productRequest) throws WrongInputDataException, IOException {
         return productService.update(id, productRequest);
     }
 

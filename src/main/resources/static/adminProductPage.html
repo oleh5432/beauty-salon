@@ -43,6 +43,9 @@
                         <label for="categoryId">id категорії</label><br>
                         <input type="number" id="categoryId" name="categoryId" placeholder="Category id">
                         <input type="button" id="selectCategory" value="Вибрати категорію"><br>
+                        <label for="getFile">Додати зображення</label>
+                        <input type="file" id="getFile">
+                        <input type="button" value="Додати" id="sendFile"><br>
 <!--                        <input type="number" id="img" name="img" placeholder="img">-->
 <!--                        <input type="button" id="selectImg" value="Вибрати зображення"><br>-->
                         <input type="button" id="btnCreateProduct" value="Створити">
@@ -86,6 +89,27 @@
 
     </div>
 
+    <!-- The Modal Img-->
+    <div id="imgModal" class="modal">
+
+        <!-- Modal content -->
+        <div class="modal-content">
+            <div class="modal-header">
+                <span id="closeImgModal" class="close">&times;</span>
+                <h2>Перегляд зображення</h2>
+            </div>
+            <div class="modal-body">
+                <div id="img-container">
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <h3>Форма для перегляду зображення</h3>
+            </div>
+        </div>
+
+    </div>
+
     <!-- The Modal update-->
     <div id="modalUpdate" class="modal">
 
@@ -108,9 +132,14 @@
                         <!--                        <input type="text" id="startTime" name="startTime" placeholder="Start Time"><br>-->
                         <label for="priceUpdate">Ціна</label><br>
                         <input type="number" id="priceUpdate" name="price" placeholder="Price"><br>
+                        <label for="categoryNameUpdate">Назва категорії</label><br>
+                        <input type="text" id="categoryNameUpdate" name="categoryNameUpdate" placeholder="category name.."readonly><br>
                         <label for="categoryIdUpdate">id категорії</label><br>
                         <input type="number" id="categoryIdUpdate" name="categoryId" placeholder="Category id">
                         <input type="button" id="selectCategoryUpdate" value="Вибрати категорію"><br>
+                        <label for="getFile">Додати зображення</label>
+                        <input type="file" id="getFileUpdate">
+                        <input type="button" value="Додати" id="sendFileUpdate"><br>
                         <!--                        <input type="number" id="img" name="img" placeholder="img">-->
                         <!--                        <input type="button" id="selectImg" value="Вибрати зображення"><br>-->
                         <input type="button" id="btnUpdateButton" value="Оновити">
@@ -118,7 +147,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <h3>Форма для новлення послуги</h3>
+                <h3>Форма для оновлення послуги</h3>
             </div>
         </div>
 
@@ -131,7 +160,7 @@
 <!--            <th>Час початку</th>-->
             <th>Ціна, грн</th>
             <th>Категорія</th>
-<!--            <th>Зображення</th>-->
+            <th>Зображення</th>
             <th>Кнопка для видалення</th>
             <th>Кнопка для оновлення</th>
         </tr>

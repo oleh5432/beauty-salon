@@ -35,5 +35,7 @@ public class Product {
 
     @ManyToMany(mappedBy = "products")
     private List<Order> orders = new ArrayList<>();
+
+    private String pathToImg;
 }
 

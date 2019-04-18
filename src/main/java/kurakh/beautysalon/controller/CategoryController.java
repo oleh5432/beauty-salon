@@ -3,12 +3,14 @@ package kurakh.beautysalon.controller;
 import kurakh.beautysalon.dto.request.CategoryRequest;
 import kurakh.beautysalon.dto.response.CategoryResponse;
 import kurakh.beautysalon.dto.response.DataResponse;
+import kurakh.beautysalon.dto.response.ProductResponse;
 import kurakh.beautysalon.exception.WrongInputDataException;
 import kurakh.beautysalon.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -26,8 +28,13 @@ public class CategoryController {
     @GetMapping
     public List<CategoryResponse> findAll() {
         return categoryService.findAll();
+
     }
 
+    @GetMapping("/findById")
+    public CategoryResponse findById(@RequestParam @Valid Long id) throws WrongInputDataException {
+        return categoryService.findById(id);
+    }
 
     @GetMapping("/page")
     public DataResponse<CategoryResponse> findAll(@RequestParam Integer page,

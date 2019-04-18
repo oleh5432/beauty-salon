@@ -30,4 +30,6 @@ public class ProductRequest {
 
     @NotNull
     private Long categoryId;
+
+    private FileRequest fileRequest;
 }

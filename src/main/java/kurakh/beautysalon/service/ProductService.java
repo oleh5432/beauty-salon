@@ -14,6 +14,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -26,16 +27,19 @@ public class ProductService {
     @Autowired
     private CategoryService categoryService;
 
-    public ProductResponse save(ProductRequest productRequest) throws WrongInputDataException {
+    @Autowired
+    private FileService fileService;
+
+    public ProductResponse save(ProductRequest productRequest) throws WrongInputDataException, IOException {
         return new ProductResponse(productRepository.save(productRequestToProduct(productRequest, null)));
     }
 
-    public ProductResponse update(Long id, ProductRequest productRequest) throws WrongInputDataException {
+    public ProductResponse update(Long id, ProductRequest productRequest) throws WrongInputDataException, IOException {
         return new ProductResponse(productRepository
                 .save(productRequestToProduct(productRequest, findOneById(id))));
     }
 
-    private Product productRequestToProduct(ProductRequest productRequest, Product product) throws WrongInputDataException {
+    private Product productRequestToProduct(ProductRequest productRequest, Product product) throws WrongInputDataException, IOException {
         if (product == null) {
             product = new Product();
         }
@@ -44,6 +48,8 @@ public class ProductService {
         product.setTimeMinutes(productRequest.getTimeMinutes());
 //        product.setStartTime(productRequest.getStartTime());
         product.setCategory(categoryService.findOneById(productRequest.getCategoryId()));
+        String file = fileService.saveFile(productRequest.getFileRequest());
+        product.setPathToImg(file);
         return product;
     }
 

@@ -3,6 +3,7 @@ package kurakh.beautysalon.service;
 import kurakh.beautysalon.dto.request.CategoryRequest;
 import kurakh.beautysalon.dto.response.CategoryResponse;
 import kurakh.beautysalon.dto.response.DataResponse;
+import kurakh.beautysalon.dto.response.ProductResponse;
 import kurakh.beautysalon.entity.Category;
 import kurakh.beautysalon.exception.WrongInputDataException;
 import kurakh.beautysalon.repository.CategoryRepository;
@@ -12,6 +13,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -79,5 +81,9 @@ public class CategoryService {
     public Category findOneById(Long id) throws WrongInputDataException {
         return categoryRepository.findById(id)
                 .orElseThrow(() -> new WrongInputDataException("Category with id '" + id + "' not exists"));
+    }
+
+    public CategoryResponse findById(Long id) throws WrongInputDataException {
+        return new CategoryResponse(findOneById(id));
     }
 }

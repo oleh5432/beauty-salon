@@ -25,6 +25,8 @@ public class ProductResponse {
 
     private String categoryName;
 
+    private String pathToImage;
+
     public ProductResponse(Product product) {
         id = product.getId();
         name = product.getName();
@@ -33,5 +35,6 @@ public class ProductResponse {
         price = product.getPrice();
         if(product.getCategory() != null)
             categoryName = product.getCategory().getName();
+        pathToImage = product.getPathToImg();
     }
 }

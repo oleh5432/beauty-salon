@@ -66,7 +66,7 @@ form, #products, #categories, #categoriesAll {
     color: white;
 }
 
-.button, .buttonUpdate, .menu-button, #openModal, #selectCategory{
+.button, .buttonUpdate, .menu-button, .img-button, #openModal, #selectCategory{
     background-color: red; /* Green */
     border: none;
     color: white;
@@ -86,6 +86,9 @@ form, #products, #categories, #categoriesAll {
     background-color: #8b872d;
 }
 
+.img-button{
+    background-color: #2e8b84;
+}
 
 
 body {font-family: Arial, Helvetica, sans-serif;}
@@ -106,11 +109,12 @@ body {font-family: Arial, Helvetica, sans-serif;}
     -webkit-animation-duration: 0.4s;
     animation-name: fadeIn;
     animation-duration: 0.4s
+
 }
 
 /* Modal Content */
 .modal-content {
-    position: fixed;
+    /*position: fixed;*/
     bottom: 0;
     background-color: #fefefe;
     width: 95%;

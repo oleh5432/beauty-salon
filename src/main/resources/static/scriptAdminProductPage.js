@@ -6,6 +6,7 @@ setModalConfiguration();
 setModalCategoryConfiguration();
 setModalUpdateConfiguration();
 
+setActionOnImgProductsButtons();
 setActionOnUpdateProductButtons();
 setActionOnUpdateButton();
 
@@ -43,7 +44,7 @@ function setProductToTable(product) {
         // '<td>' + product.startTime + '</td>' +
         '<td>' + product.price + '</td>' +
         '<td>' + product.categoryName + '</td>' +
-        // '<td>' + product.img + '</td>' +
+        '<td><button class="img-button" value="' + product.id + '">Зображення</button></td>' +
         '<td><button class="button" value="' + product.id + '">Видалити</button></td>' +
         '<td><button class="buttonUpdate" value="' + product.id + '">Оновити</button></td>' +
         '</tr>');
@@ -78,15 +79,15 @@ function setActionOnUpdateButton() {
         // var startTime = $("#startTime").val();
         var price = $("#priceUpdate").val();
         var categoryId = $("#categoryIdUpdate").val();
-        // var img = $("#imgUpdate").val();
+        var fileRequest = getFile("sendFileUpdate");
 
         var newProduct = {
             "name": name,
             "timeMinutes": timeMinutes,
             // "startTime": startTime,
             "price": price,
-            "categoryId": categoryId
-            // "img": img
+            "categoryId": categoryId,
+            "fileRequest": fileRequest
         };
 
         $.ajax({
@@ -116,7 +117,7 @@ function setActionOnCreateBtn() {
         // var startTime = $("#startTime").val();
         var price = $("#price").val();
         var categoryId = $("#categoryId").val();
-        // var img = $("#img").val();
+        var fileRequest = getFile("sendFile");
 
         var newProduct = {
             "name": name,
@@ -124,7 +125,7 @@ function setActionOnCreateBtn() {
             // "startTime": startTime,
             "price": price,
             "categoryId": categoryId,
-            // "img": img
+            "fileRequest": fileRequest
         };
 
         $.ajax({
@@ -145,42 +146,71 @@ function setActionOnCreateBtn() {
     });
 }
 
+function setActionOnImgProductsButtons() {
+    $(".img-button").each(function (index) {
+        $(this).click(function () {
+            getImgProduct($(this).val());
+            document.getElementById('imgModal').style.display = "block";
+        })
+    })
+}
+
 function setActionOnUpdateProductButtons() {
     $(".buttonUpdate").each(function (index) {
         $(this).click(function () {
             $('#productId').val($(this).val());
-            // дописати функацію яка повертає один продукт за id, щоб можна було відразу підставити при кліку в інпути старі значення
-            var product = getById($(this).val());
-            $("#nameUpdate").val(product.name);
-            $("#timeMinutesUpdate").val(product.timeMinutes);
-            $("#priceUpdate").val(product.price);
-            $("#categoryIdUpdate").val(product.categoryId);
+            // дописати функцію яка повертає один продукт за id, щоб можна було відразу підставити при кліку в інпути старі значення
+            getProductById($(this).val());
             document.getElementById('modalUpdate').style.display = "block";
         })
     })
 }
 
-function getById(id) {
-    var newProduct = {};
+function getImgProduct(id) {
+    $('#img-container').html('');
     $.ajax({
         url: mainUrl + "/product/findById?id=" + id,
         type: "GET",
         contentType: "application/json",
         success: function (product) {
-           newProduct = {
-                "name": product.name,
-                "timeMinutes": product.timeMinutes,
-                // "startTime": startTime,
-                "price": product.price,
-                "categoryId": product.categoryId
-                // "img": img
-            };
+            $('#img-container').append('<img class="product-image" src="' + product.pathToImage + '">')
         },
         error: function (error) {
             console.log(error.message);
         }
     });
-    return newProduct;
+}
+
+function getProductById(id) {
+    $.ajax({
+        url: mainUrl + "/product/findById?id=" + id,
+        type: "GET",
+        contentType: "application/json",
+        success: function (product) {
+            $("#nameUpdate").val(product.name);
+            $("#timeMinutesUpdate").val(product.timeMinutes);
+            $("#priceUpdate").val(product.price);
+            $("#categoryNameUpdate").val(product.categoryName);
+            // $("#getFileUpdate").val(product.fileRequest);
+        },
+        error: function (error) {
+            console.log(error.message);
+        }
+    });
+}
+
+function getCategoryById(id) {
+    $.ajax({
+        url: mainUrl + "/category/findById?id=" + id,
+        type: "GET",
+        contentType: "application/json",
+        success: function (category) {
+            $("#categoryNameUpdate").val(category.name);
+        },
+        error: function (error) {
+            console.log(error.message);
+        }
+    });
 }
 
 function getAllCategories() {
@@ -217,8 +247,10 @@ function setCategoryToTable(category) {
 function setActionOnSelectCategoryButtons() {
     $(".button").each(function (index) {
         $(this).click(function () {
-            $('#categoryId').val($(this).val());
-            $('#categoryIdUpdate').val($(this).val());
+            var id = $(this).val();
+            $('#categoryId').val(id);
+            $('#categoryIdUpdate').val(id);
+            getCategoryById(id);
             document.getElementById('modalCategory').style.display = "none";
             if (!(document.getElementById('myModal').style.display === "block")) {
                 if(document.getElementById('modalUpdate').style.display === "none"){
@@ -321,3 +353,58 @@ function setModalUpdateConfiguration() {
         }
     };
 }
+
+function getBase64(file) {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = error => reject(error);
+    });
+}
+
+function getFile(elementId) {
+    document.getElementById(elementId).onclick = function(){
+        let file = document.getElementById("getFile").files[0];
+        getBase64(file).then(data => {
+
+            //work with data as src of file
+            let request = {
+                //fileName: "someCustomFileName",
+                data: data
+            }
+            return request;
+        });
+    };
+}
+
+// document.getElementById("sendFile").onclick = function(){
+//     let file = document.getElementById("getFile").files[0];
+//     getBase64(file).then(data => {
+//
+//         //work with data as src of file
+//         let request = {
+//             //fileName: "someCustomFileName",
+//             data: data
+//         }
+//         $.ajax({
+//             url: "http://localhost:8080/upload",
+//             type: "POST",
+//             contentType: "application/json",
+//             data: JSON.stringify(request),
+//             success: function (data) {
+//                 addImgToContainer(data);
+//             },
+//             error: function (error) {
+//                 alert(error.message);
+//             }
+//         });
+//     });
+// };
+
+
+// function addImgToContainer(fileName) {
+//     let img = document.createElement('img');
+//     img.setAttribute('src', '/img/' + fileName);
+//     document.getElementById('uploaded-images').appendChild(img);
+// }
