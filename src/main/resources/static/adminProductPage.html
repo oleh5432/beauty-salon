@@ -20,6 +20,10 @@
     <button id="openModal">Створити послугу</button>
 <!--    <button id="openModalUpdate">Оновити послугу</button>-->
 
+
+    <button class="menu-button" id="img2">img</button>
+
+
     <!-- The Modal Create-->
     <div id="myModal" class="modal">
 
@@ -100,7 +104,7 @@
             </div>
             <div class="modal-body">
                 <div id="img-container">
-
+                    <img src="http://localhost:8080/img/Весільна зачіска.jpeg" alt="no img">
                 </div>
             </div>
             <div class="modal-footer">
@@ -133,7 +137,7 @@
                         <label for="priceUpdate">Ціна</label><br>
                         <input type="number" id="priceUpdate" name="price" placeholder="Price"><br>
                         <label for="categoryNameUpdate">Назва категорії</label><br>
-                        <input type="text" id="categoryNameUpdate" name="categoryNameUpdate" placeholder="category name.."readonly><br>
+                        <input type="text" id="categoryNameUpdate" name="categoryNameUpdate" placeholder="category name.." readonly><br>
                         <label for="categoryIdUpdate">id категорії</label><br>
                         <input type="number" id="categoryIdUpdate" name="categoryId" placeholder="Category id">
                         <input type="button" id="selectCategoryUpdate" value="Вибрати категорію"><br>
@@ -157,7 +161,7 @@
         <tr>
             <th>Назва послуги</th>
             <th>Тривалість, хв</th>
-<!--            <th>Час початку</th>-->
+            <th>Перехід на зображення</th>
             <th>Ціна, грн</th>
             <th>Категорія</th>
             <th>Зображення</th>

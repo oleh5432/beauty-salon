@@ -5,13 +5,21 @@ getAllProducts();
 setModalConfiguration();
 setModalCategoryConfiguration();
 setModalUpdateConfiguration();
+setModalImgConfiguration();
 
 setActionOnImgProductsButtons();
+
 setActionOnUpdateProductButtons();
 setActionOnUpdateButton();
 
 setActionOnCreateBtn();
 
+setActionImg2();
+function setActionImg2() {
+    $('#img2').click(function () {
+        document.getElementById('imgModal').style.display = "block";
+    })
+}
 
 //start when load page PS reload page for triggered http request
 function getAllProducts() {
@@ -41,7 +49,8 @@ function setProductToTable(product) {
     tableOfProducts.append('<tr>' +
         '<td>' + product.name + '</td>' +
         '<td>' + product.timeMinutes + '</td>' +
-        // '<td>' + product.startTime + '</td>' +
+        // '<td><a href="http://localhost:8080/img/Весільна зачіска.jpeg"><button class="img-button" value="' + product.id + '">Перехід на зображення</button></a></td>' +
+        '<td><a href="' + mainUrl + '/img/' + product.pathToImage + '"><button class="img-button" value="' + product.id + '">Перехід на зображення</button></a></td>' +
         '<td>' + product.price + '</td>' +
         '<td>' + product.categoryName + '</td>' +
         '<td><button class="img-button" value="' + product.id + '">Зображення</button></td>' +
@@ -149,7 +158,7 @@ function setActionOnCreateBtn() {
 function setActionOnImgProductsButtons() {
     $(".img-button").each(function (index) {
         $(this).click(function () {
-            getImgProduct($(this).val());
+            // getImgProduct($(this).val());
             document.getElementById('imgModal').style.display = "block";
         })
     })
@@ -173,7 +182,7 @@ function getImgProduct(id) {
         type: "GET",
         contentType: "application/json",
         success: function (product) {
-            $('#img-container').append('<img class="product-image" src="' + product.pathToImage + '">')
+            $('#img-container').append('<img class="product-image" src="' + mainUrl + '/img/' + product.pathToImage + '">')
         },
         error: function (error) {
             console.log(error.message);
@@ -354,6 +363,26 @@ function setModalUpdateConfiguration() {
     };
 }
 
+function setModalImgConfiguration() {
+    // Get the modal
+    var modal = document.getElementById('imgModal');
+
+    // Get the <span> element that closes the modal
+    var span = document.getElementById('closeImgModal');
+
+    // When the user clicks on <span> (x), close the modal
+    span.onclick = function () {
+        modal.style.display = "none";
+    };
+
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function (event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    };
+}
+
 function getBase64(file) {
     return new Promise((resolve, reject) => {
         const reader = new FileReader();
@@ -370,11 +399,12 @@ function getFile(elementId) {
 
             //work with data as src of file
             let request = {
-                //fileName: "someCustomFileName",
+                fileName:  $("#name").val(),
                 data: data
             }
             return request;
         });
+        getBase64(file).then()
     };
 }
 
