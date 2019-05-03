@@ -37,7 +37,7 @@ public class ProductFilterRequest {
 
     private Integer maxTimeMinutes = Integer.MAX_VALUE;
 
-    private LocalDateTime startTime;
+//    private LocalDateTime startTime;
 
     @Positive
     private Integer minPrice  = 0;
@@ -46,11 +46,13 @@ public class ProductFilterRequest {
 
     private List<Long> categoriesId = new ArrayList<>();
 
-    public ProductFilterRequest(String name, Integer minTimeMinutes, Integer maxTimeMinutes, LocalDateTime startTime, Integer minPrice, Integer maxPrice, List<Long> categoriesId) {
+    public ProductFilterRequest(String name, Integer minTimeMinutes, Integer maxTimeMinutes,
+//                                LocalDateTime startTime,
+                                Integer minPrice, Integer maxPrice, List<Long> categoriesId) {
         this.name = name;
         this.minTimeMinutes = minTimeMinutes;
         this.maxTimeMinutes = maxTimeMinutes;
-        this.startTime = startTime;
+//        this.startTime = startTime;
         this.minPrice = minPrice;
         this.maxPrice = maxPrice;
         this.categoriesId = categoriesId;

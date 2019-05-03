@@ -60,12 +60,14 @@ public class ProductController {
                                                  @RequestParam(required = false) String name,
                                                  @RequestParam(required = false) Integer minTimeMinutes,
                                                  @RequestParam(required = false) Integer maxTimeMinutes,
-                                                 @RequestParam(required = false) LocalDateTime startTime,
+//                                                 @RequestParam(required = false) LocalDateTime startTime,
                                                  @RequestParam(required = false) Integer minPrice,
                                                  @RequestParam(required = false) Integer maxPrice,
                                                  @RequestParam(required = false) List<Long> categoriesId) {
         return productService.findAll(page, size, fieldName, direction,
-                new ProductFilterRequest(name, minTimeMinutes, maxTimeMinutes, startTime, minPrice, maxPrice, categoriesId));
+                new ProductFilterRequest(name, minTimeMinutes, maxTimeMinutes,
+//                        startTime,
+                        minPrice, maxPrice, categoriesId));
     }
 
     @GetMapping("/page")

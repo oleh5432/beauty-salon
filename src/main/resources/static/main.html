@@ -7,11 +7,109 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 </head>
 <body>
+    <style>
+        .container {
+            display: flex;
+            justify-content: space-evenly;
+            flex-wrap: wrap;
+        }
+
+        .product {
+            width: 31%;
+            margin-bottom: 40px;
+        }
+
+        .product-image {
+            width: 100%;
+        }
+
+
+    </style>
+
     <div class="menu">
         <a href="/"><button class="menu-button" id="openMain">Головна</button></a>
         <a href="/admin"><button class="menu-button" id="openAdmin">Адміністратор</button></a>
     </div>
 
-<script src="script.js"></script>
+    <div class="controllers">
+        <input type="text" id="page" value="1">
+        <select id="size" value="10">
+            <option value="10">10</option>
+            <option value="5">5</option>
+            <option value="2">2</option>
+        </select>
+        <select id="direction" value="ASC">
+            <option value="ASC">asc</option>
+            <option value="DESC">desc</option>
+        </select>
+        <!--<button id="pagination-confirm">OK</button>-->
+    </div>
+    <div class="container">
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script>
+
+        makeRequest();
+
+        // // $('#pagination-confirm').click(makeRequest);
+
+        $('#page').change(makeRequest);
+        $('#size').change(makeRequest);
+        $('#direction').change(makeRequest);
+
+
+        function makeRequest() {
+            let page = $('#page').val() - 1;
+            let size = $('#size').val();
+            let direction = $('#direction').val();
+            $.ajax({
+                // url: 'http://localhost:8080/product/page?direction=' + direction + 'page=' + page + '&size=' + size,
+                url: "http://localhost:8080/product/page?direction=" + direction + "&fieldName=name&page=" + page + "&size=" + size,
+                type: 'GET',
+                contentType: 'application/json',
+                success: function (res) {
+                    appendProductsToContainer(res.data)
+                },
+                error: function (e) {
+                    console.log(e)
+                }
+            })
+        }
+        //
+        function appendProductsToContainer(products) {
+            let $container = $('.container');
+            $container.html('');
+            for (let product of products) {
+                let img = product.pathToImage ?
+                    'http://localhost:8080/img/' + product.pathToImage
+                    : 'http://denrakaev.com/wp-content/uploads/2015/03/no-image.png';
+                $container.append(`
+                    <div class="product">
+                        <h3 class="product-title">
+                            ${product.name}
+                        </h3>
+                        <img class="product-image" src="${img}">
+                        <p class="product-name">${product.categoryName}</p>
+                        <p class="product-name">${product.name}</p>
+                        <p class="product-timeMinutes">${product.timeMinutes}</p>
+                        <p class="product-price">$${product.price}</p>
+                    </div>
+                `)
+            }
+        }
+
+        // function getPaginationRequest() {
+        //     return {
+        //         page: $('#page').val() - 1,
+        //         size: $('#size').val(),
+        //         sortRequest: {
+        //             field: 'name',
+        //             direction: $('#direction').val()
+        //         }
+        //     };
+        // }
+
+    </script>
 </body>
 </html>

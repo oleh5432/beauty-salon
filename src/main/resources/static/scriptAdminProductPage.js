@@ -7,7 +7,7 @@ setModalCategoryConfiguration();
 setModalUpdateConfiguration();
 setModalImgConfiguration();
 
-setActionOnImgProductsButtons();
+// setActionOnImgProductsButtons();
 
 setActionOnUpdateProductButtons();
 setActionOnUpdateButton();
@@ -49,15 +49,26 @@ function setProductToTable(product) {
     tableOfProducts.append('<tr>' +
         '<td>' + product.name + '</td>' +
         '<td>' + product.timeMinutes + '</td>' +
-        // '<td><a href="http://localhost:8080/img/Весільна зачіска.jpeg"><button class="img-button" value="' + product.id + '">Перехід на зображення</button></a></td>' +
-        '<td><a href="' + mainUrl + '/img/' + product.pathToImage + '"><button class="img-button" value="' + product.id + '">Перехід на зображення</button></a></td>' +
         '<td>' + product.price + '</td>' +
         '<td>' + product.categoryName + '</td>' +
-        '<td><button class="img-button" value="' + product.id + '">Зображення</button></td>' +
+        '<td>' +
+            '<a href="' + mainUrl + '/img/' + product.pathToImage + '" target="_blank">' +
+                '<button class="img-button" value="' + product.id + '" onclick="getImg(' + mainUrl + '/img/' + product.pathToImage + ')">' +
+                    'Переглянути зображення' +
+                '</button>' +
+            '</a>' +
+        '</td>' +
+        // '<td><button class="imgButton" value="' + product.id + '">Зображення</button></td>' +
         '<td><button class="button" value="' + product.id + '">Видалити</button></td>' +
         '<td><button class="buttonUpdate" value="' + product.id + '">Оновити</button></td>' +
         '</tr>');
 }
+
+// function getImg(pathToImg) {
+//     $('#img-container').html('');
+//     $('#img-container').append('<img src="' + pathToImg + '"  alt="no img">');
+//     document.getElementById('imgModal').style.display = "block";
+// }
 
 //delete process
 function setActionOnDeleteButtons() {
@@ -121,14 +132,24 @@ function setActionOnUpdateButton() {
 function setActionOnCreateBtn() {
     $("#btnCreateProduct").click(function () {
 
-        var name = $("#name").val();
-        var timeMinutes = $("#timeMinutes").val();
+        let name = $("#name").val();
+        let timeMinutes = $("#timeMinutes").val();
         // var startTime = $("#startTime").val();
-        var price = $("#price").val();
-        var categoryId = $("#categoryId").val();
-        var fileRequest = getFile("sendFile");
+        let price = $("#price").val();
+        let categoryId = $("#categoryId").val();
+        // var fileRequest = getFile("sendFile");
+        let fileRequest = "";
 
-        var newProduct = {
+        let file = document.getElementById("getFile").files[0];
+        getBase64(file).then(data => {
+            //work with data as src of file
+            fileRequest = {
+                fileName: name,
+                data: data
+            }
+        });
+
+        let newProduct = {
             "name": name,
             "timeMinutes": timeMinutes,
             // "startTime": startTime,
@@ -152,17 +173,18 @@ function setActionOnCreateBtn() {
 //            } else {
 //                alert("Всі поля повинні бути заповнені")
 //            }
+        document.getElementById('myModal').style.display = "none";
     });
 }
 
-function setActionOnImgProductsButtons() {
-    $(".img-button").each(function (index) {
-        $(this).click(function () {
-            // getImgProduct($(this).val());
-            document.getElementById('imgModal').style.display = "block";
-        })
-    })
-}
+// function setActionOnImgProductsButtons() {
+//     $(".img-button").each(function (index) {
+//         $(this).click(function () {
+//             getImgProduct($(this).val());
+//             document.getElementById('imgModal').style.display = "block";
+//         })
+//     })
+// }
 
 function setActionOnUpdateProductButtons() {
     $(".buttonUpdate").each(function (index) {
@@ -175,20 +197,20 @@ function setActionOnUpdateProductButtons() {
     })
 }
 
-function getImgProduct(id) {
-    $('#img-container').html('');
-    $.ajax({
-        url: mainUrl + "/product/findById?id=" + id,
-        type: "GET",
-        contentType: "application/json",
-        success: function (product) {
-            $('#img-container').append('<img class="product-image" src="' + mainUrl + '/img/' + product.pathToImage + '">')
-        },
-        error: function (error) {
-            console.log(error.message);
-        }
-    });
-}
+// function getImgProduct(id) {
+//     $('#img-container').html('');
+//     $.ajax({
+//         url: mainUrl + "/product/findById?id=" + id,
+//         type: "GET",
+//         contentType: "application/json",
+//         success: function (product) {
+//             $('#img-container').append('<img class="product-image" src="' + mainUrl + '/img/' + product.pathToImage + '">')
+//         },
+//         error: function (error) {
+//             console.log(error.message);
+//         }
+//     });
+// }
 
 function getProductById(id) {
     $.ajax({
@@ -392,21 +414,32 @@ function getBase64(file) {
     });
 }
 
-function getFile(elementId) {
-    document.getElementById(elementId).onclick = function(){
-        let file = document.getElementById("getFile").files[0];
-        getBase64(file).then(data => {
+// function getFile(elementId) {
+//     document.getElementById(elementId).onclick = function(){
+//         let file = document.getElementById("getFile").files[0];
+//         let request = {
+//             fileName:  $("#name").val(),
+//             data: getBase64(file)
+//         }
+//         return request;
+//     };
+// }
 
-            //work with data as src of file
-            let request = {
-                fileName:  $("#name").val(),
-                data: data
-            }
-            return request;
-        });
-        getBase64(file).then()
-    };
-}
+// function getFile(elementId) {
+//     document.getElementById(elementId).onclick = function(){
+//         let file = document.getElementById("getFile").files[0];
+//         getBase64(file).then(data => {
+//
+//             //work with data as src of file
+//             let request = {
+//                 // fileName:  $("#name").val(),
+//                 data: data
+//             }
+//             return request;
+//         });
+//         getBase64(file).then()
+//     };
+// }
 
 // document.getElementById("sendFile").onclick = function(){
 //     let file = document.getElementById("getFile").files[0];
