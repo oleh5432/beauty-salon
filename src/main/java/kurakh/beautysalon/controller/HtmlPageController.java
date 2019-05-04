@@ -16,6 +16,11 @@ public class HtmlPageController {
         return "adminPage.html";
     }
 
+    @RequestMapping("/login")
+    public String logInPage(){
+        return "logIn.html";
+    }
+
     @RequestMapping("/create-product")
     public String productPage(){
         return "adminProductPage.html";
@@ -25,4 +30,5 @@ public class HtmlPageController {
     public String categoryPage(){
         return "adminCategoryPage.html";
     }
+
 }

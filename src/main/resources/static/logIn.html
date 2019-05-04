@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/login.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <title>Авторизація</title>
+</head>
+<body>
+<div class="menu">
+    <a href="/"><button class="menu-button" id="openMain">Головна</button></a>
+    <a href="/admin"><button class="menu-button" id="openAdmin">Адміністратор</button></a>
+    <a href="/login"><button class="menu-button" id="openSignIn">Увійти</button></a>
+</div>
+<div class="login-page">
+    <div class="form">
+        <form class="register-form">
+            <input type="text" placeholder="Ім'я"/>
+            <input type="text" placeholder="номер телефону"/>
+            <input type="text" placeholder="адреса електронної пошти"/>
+            <input type="password" placeholder="пароль"/>
+            <button>Створити</button>
+            <p class="message">Вже зареєстровані? <a href="#"> Увійти</a></p>
+        </form>
+        <form class="login-form">
+            <input type="text" placeholder="номер телефону чи е-мейл"/>
+            <input type="password" placeholder="пароль"/>
+            <button>Увійти</button>
+            <p class="message">Якщо ви не зараєстровані? <a href="#"> <br>Створити користувача</a></p>
+        </form>
+    </div>
+</div>
+<script>
+    $('.message a').click(function(){
+        $('form').animate({height: "toggle", opacity: "toggle"}, "slow");
+    });
+</script>
+</body>
+</html>

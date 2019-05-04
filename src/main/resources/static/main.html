@@ -29,6 +29,7 @@
     <div class="menu">
         <a href="/"><button class="menu-button" id="openMain">Головна</button></a>
         <a href="/admin"><button class="menu-button" id="openAdmin">Адміністратор</button></a>
+        <a href="/login"><button class="menu-button" id="openSignIn">Увійти</button></a>
     </div>
 
     <div class="controllers">
@@ -64,7 +65,6 @@
             let size = $('#size').val();
             let direction = $('#direction').val();
             $.ajax({
-                // url: 'http://localhost:8080/product/page?direction=' + direction + 'page=' + page + '&size=' + size,
                 url: "http://localhost:8080/product/page?direction=" + direction + "&fieldName=name&page=" + page + "&size=" + size,
                 type: 'GET',
                 contentType: 'application/json',
@@ -90,10 +90,10 @@
                             ${product.name}
                         </h3>
                         <img class="product-image" src="${img}">
-                        <p class="product-name">${product.categoryName}</p>
-                        <p class="product-name">${product.name}</p>
-                        <p class="product-timeMinutes">${product.timeMinutes}</p>
-                        <p class="product-price">$${product.price}</p>
+                        <p class="product-name">Категорія: <strong>${product.categoryName}</strong></p>
+                        <p class="product-name">Назва послуги: <strong>${product.name}</strong></p>
+                        <p class="product-timeMinutes">Тривалість: <strong>${product.timeMinutes} хв</strong></p>
+                        <p class="product-price">Ціна: <strong>₴${product.price}</strong></p>
                     </div>
                 `)
             }
