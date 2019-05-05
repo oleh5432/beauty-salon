@@ -130,50 +130,65 @@ function setActionOnUpdateButton() {
 }
 
 function setActionOnCreateBtn() {
+
+    function getBase64(file) {
+        return new Promise((resolve, reject) => {
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = () => resolve(reader.result);
+            reader.onerror = error => reject(error);
+        });
+    }
+
     $("#btnCreateProduct").click(function () {
 
         let name = $("#name").val();
         let timeMinutes = $("#timeMinutes").val();
-        // var startTime = $("#startTime").val();
         let price = $("#price").val();
         let categoryId = $("#categoryId").val();
-        // var fileRequest = getFile("sendFile");
-        let fileRequest = "";
-
         let file = document.getElementById("getFile").files[0];
+        let newProduct = {};
+
         getBase64(file).then(data => {
-            //work with data as src of file
-            fileRequest = {
-                fileName: name,
-                data: data
+            if (file != null) {
+                 newProduct = {
+                    "name": name,
+                    "timeMinutes": timeMinutes,
+                    "price": price,
+                    "categoryId": categoryId,
+                    "fileRequest": {
+                        fileName: name,
+                        data: data
+                    }
+                };
+            }else {
+                newProduct = {
+                    "name": name,
+                    "timeMinutes": timeMinutes,
+                    "price": price,
+                    "categoryId": categoryId,
+                    "fileRequest": {
+                        fileName: name,
+                        data: data
+                    }
+                };
             }
         });
 
-        let newProduct = {
-            "name": name,
-            "timeMinutes": timeMinutes,
-            // "startTime": startTime,
-            "price": price,
-            "categoryId": categoryId,
-            "fileRequest": fileRequest
-        };
-
         $.ajax({
-            url: mainUrl + "/product",
+            url: mainUrl + "/product/save",
             type: "POST",
             contentType: "application/json",
             data: JSON.stringify(newProduct),
             success: function (data) {
                 location.reload();
+                alert("Послуга створена");
+                document.getElementById('myModal').style.display = "none";
             },
             error: function (error) {
-                console.log(error.message);
+                console.log(error);
             }
         });
-//            } else {
-//                alert("Всі поля повинні бути заповнені")
-//            }
-        document.getElementById('myModal').style.display = "none";
     });
 }
 
@@ -185,6 +200,8 @@ function setActionOnCreateBtn() {
 //         })
 //     })
 // }
+
+// document.getElementById('myModal').style.display = "none";
 
 function setActionOnUpdateProductButtons() {
     $(".buttonUpdate").each(function (index) {
@@ -405,14 +422,14 @@ function setModalImgConfiguration() {
     };
 }
 
-function getBase64(file) {
-    return new Promise((resolve, reject) => {
-        const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => resolve(reader.result);
-    reader.onerror = error => reject(error);
-    });
-}
+// function getBase64(file) {
+//     return new Promise((resolve, reject) => {
+//         const reader = new FileReader();
+//     reader.readAsDataURL(file);
+//     reader.onload = () => resolve(reader.result);
+//     reader.onerror = error => reject(error);
+//     });
+// }
 
 // function getFile(elementId) {
 //     document.getElementById(elementId).onclick = function(){
