@@ -91,42 +91,38 @@ function setActionOnDeleteButtons() {
 
 //update process
 function setActionOnUpdateButton() {
-    $("#btnUpdateButton").click(function () {
+    $("#btnUpdateButton").click(function(){
+        let file = document.getElementById("getFileUpdate").files[0];
+        getBase64(file).then(data => {
 
-        var productId = $("#productId").val();
-        var name = $("#nameUpdate").val();
-        var timeMinutes = $("#timeMinutesUpdate").val();
-        // var startTime = $("#startTime").val();
-        var price = $("#priceUpdate").val();
-        var categoryId = $("#categoryIdUpdate").val();
-        var fileRequest = getFile("sendFileUpdate");
+            let product = {
+                "productId": $("#productId").val(),
+                "categoryId": $("#categoryIdUpdate").val(),
+                "fileRequest": {
+                    "fileName": $("#nameUpdate").val(),
+                    "data": data
+                },
+                "name": $("#nameUpdate").val(),
+                "price": $("#priceUpdate").val(),
+                "timeMinutes": $("#timeMinutesUpdate").val()
+            };
 
-        var newProduct = {
-            "name": name,
-            "timeMinutes": timeMinutes,
-            // "startTime": startTime,
-            "price": price,
-            "categoryId": categoryId,
-            "fileRequest": fileRequest
-        };
-
-        $.ajax({
-            url: mainUrl + "/product?id=" + productId,
-            type: "PUT",
-            contentType: "application/json",
-            data: JSON.stringify(newProduct),
-            success: function (data) {
-                location.reload();
-            },
-            error: function (error) {
-                console.log(error.message);
-            }
+            $.ajax({
+                url: mainUrl + "/product?id=" + $("#productId").val(),
+                type: "PUT",
+                contentType: "application/json",
+                data: JSON.stringify(product),
+                success: function (data) {
+                    console.log(data);
+                    location.reload();
+                    alert("Послугу оновлено");
+                },
+                error: function (error) {
+                    console.log(error);
+                }
+            });
         });
-//            } else {
-//                alert("Всі поля повинні бути заповнені")
-//            }
     });
-
 }
 
 function setActionOnCreateBtn() {
