@@ -32,7 +32,7 @@ public class ProductController {
         return filePath;
     }
 
-    @PostMapping("/save")
+    @PostMapping
     public ProductResponse save(@RequestBody @Valid ProductRequest productRequest) throws WrongInputDataException, IOException {
         return productService.save(productRequest);
     }

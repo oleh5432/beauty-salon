@@ -1,4 +1,4 @@
-var mainUrl = "http://localhost:8080";
+let mainUrl = "http://localhost:8080";
 
 getAllProducts();
 
@@ -130,64 +130,35 @@ function setActionOnUpdateButton() {
 }
 
 function setActionOnCreateBtn() {
-
-    function getBase64(file) {
-        return new Promise((resolve, reject) => {
-            const reader = new FileReader();
-            reader.readAsDataURL(file);
-            reader.onload = () => resolve(reader.result);
-            reader.onerror = error => reject(error);
-        });
-    }
-
-    $("#btnCreateProduct").click(function () {
-
-        let name = $("#name").val();
-        let timeMinutes = $("#timeMinutes").val();
-        let price = $("#price").val();
-        let categoryId = $("#categoryId").val();
+    $("#btnCreateProduct").click(function(){
         let file = document.getElementById("getFile").files[0];
-        let newProduct = {};
-
         getBase64(file).then(data => {
-            if (file != null) {
-                 newProduct = {
-                    "name": name,
-                    "timeMinutes": timeMinutes,
-                    "price": price,
-                    "categoryId": categoryId,
-                    "fileRequest": {
-                        fileName: name,
-                        data: data
-                    }
-                };
-            }else {
-                newProduct = {
-                    "name": name,
-                    "timeMinutes": timeMinutes,
-                    "price": price,
-                    "categoryId": categoryId,
-                    "fileRequest": {
-                        fileName: name,
-                        data: data
-                    }
-                };
-            }
-        });
 
-        $.ajax({
-            url: mainUrl + "/product/save",
-            type: "POST",
-            contentType: "application/json",
-            data: JSON.stringify(newProduct),
-            success: function (data) {
-                location.reload();
-                alert("Послуга створена");
-                document.getElementById('myModal').style.display = "none";
-            },
-            error: function (error) {
-                console.log(error);
-            }
+            let product = {
+                "categoryId": $("#categoryId").val(),
+                "fileRequest": {
+                    "fileName": $("#name").val(),
+                    "data": data
+                },
+                "name": $("#name").val(),
+                "price": $("#price").val(),
+                "timeMinutes": $("#timeMinutes").val()
+            };
+
+            $.ajax({
+                url: mainUrl + "/product",
+                type: "POST",
+                contentType: "application/json",
+                data: JSON.stringify(product),
+                success: function (data) {
+                    console.log(data);
+                    location.reload();
+                },
+                error: function (error) {
+                    alert(error);
+                    console.log(error);
+                }
+            });
         });
     });
 }
@@ -200,8 +171,6 @@ function setActionOnCreateBtn() {
 //         })
 //     })
 // }
-
-// document.getElementById('myModal').style.display = "none";
 
 function setActionOnUpdateProductButtons() {
     $(".buttonUpdate").each(function (index) {
@@ -422,14 +391,14 @@ function setModalImgConfiguration() {
     };
 }
 
-// function getBase64(file) {
-//     return new Promise((resolve, reject) => {
-//         const reader = new FileReader();
-//     reader.readAsDataURL(file);
-//     reader.onload = () => resolve(reader.result);
-//     reader.onerror = error => reject(error);
-//     });
-// }
+function getBase64(file) {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = error => reject(error);
+    });
+}
 
 // function getFile(elementId) {
 //     document.getElementById(elementId).onclick = function(){
