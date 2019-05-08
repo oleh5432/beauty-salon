@@ -14,6 +14,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import javax.validation.Valid;
+import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -23,7 +24,10 @@ public class CategoryService {
     @Autowired
     private CategoryRepository categoryRepository;
 
-    public CategoryResponse save(CategoryRequest categoryRequest) throws WrongInputDataException {
+    @Autowired
+    private FileService fileService;
+
+    public CategoryResponse save(CategoryRequest categoryRequest) throws WrongInputDataException, IOException {
         return new CategoryResponse(categoryRepository.save(categoryRequestToCategory(categoryRequest, null)));
     }
 
@@ -33,16 +37,18 @@ public class CategoryService {
                 .collect(Collectors.toList());
     }
 
-    public CategoryResponse update(Long id, CategoryRequest categoryRequest) throws WrongInputDataException {
+    public CategoryResponse update(Long id, CategoryRequest categoryRequest) throws WrongInputDataException, IOException {
         return new CategoryResponse(categoryRepository
                 .save(categoryRequestToCategory(categoryRequest, findOneById(id))));
     }
 
-    private Category categoryRequestToCategory(CategoryRequest categoryRequest, Category category) throws WrongInputDataException {
+    private Category categoryRequestToCategory(CategoryRequest categoryRequest, Category category) throws WrongInputDataException, IOException {
         if (category == null) {
             category = new Category();
         }
         category.setName(categoryRequest.getName());
+        String file = fileService.saveFile(categoryRequest.getFileRequest());
+        category.setPathToImg(file);
         return category;
     }
 
