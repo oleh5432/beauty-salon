@@ -67,7 +67,7 @@ public class ProductService {
         return productRepository.findProductsById(productsId);
     }
 
-    public DataResponse<ProductResponse> findAll(Integer page, Integer size, String fieldName, Sort.Direction direction, String name) {
+    public DataResponse<ProductResponse> findAll(Integer page, Integer size, String fieldName, Sort.Direction direction, String name, List<Long> categoriesId) {
         if (direction == null) {
             direction = Sort.Direction.ASC;
         }
@@ -76,6 +76,7 @@ public class ProductService {
         }
 
         Page<Product> productPage = name == null ?
+//                productRepository.findAll(PageRequest.of(page, size, direction, fieldName)) :
                 productRepository.findAll(PageRequest.of(page, size, direction, fieldName)) :
                 productRepository.findAllByNameLike(PageRequest.of(page, size, direction, fieldName), '%' + name + '%');
 

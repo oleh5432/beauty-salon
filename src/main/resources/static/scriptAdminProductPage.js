@@ -1,4 +1,5 @@
 let mainUrl = "http://localhost:8080";
+// let mainUrl = "http://localhost:8000";
 
 getAllProducts();
 
@@ -31,6 +32,7 @@ function getAllProducts() {
             setProductsToTable(dataResponse.data);
             setActionOnDeleteButtons();
             setActionOnUpdateProductButtons();
+            setActionOnImgProductsButtons();
         },
         error: function (error) {
             console.log(error.message);
@@ -52,23 +54,17 @@ function setProductToTable(product) {
         '<td>' + product.price + '</td>' +
         '<td>' + product.categoryName + '</td>' +
         '<td>' +
-            '<a href="' + mainUrl + '/img/' + product.pathToImage + '" target="_blank">' +
-                '<button class="img-button" value="' + product.id + '" onclick="getImg(' + mainUrl + '/img/' + product.pathToImage + ')">' +
+            // '<a href="' + mainUrl + '/img/' + product.pathToImage + '" target="_blank">' +
+                '<button class="img-button" value="' + product.id + '">' +
                     'Переглянути зображення' +
                 '</button>' +
-            '</a>' +
+            // '</a>' +
         '</td>' +
         // '<td><button class="imgButton" value="' + product.id + '">Зображення</button></td>' +
         '<td><button class="button" value="' + product.id + '">Видалити</button></td>' +
         '<td><button class="buttonUpdate" value="' + product.id + '">Оновити</button></td>' +
         '</tr>');
 }
-
-// function getImg(pathToImg) {
-//     $('#img-container').html('');
-//     $('#img-container').append('<img src="' + pathToImg + '"  alt="no img">');
-//     document.getElementById('imgModal').style.display = "block";
-// }
 
 //delete process
 function setActionOnDeleteButtons() {
@@ -159,14 +155,29 @@ function setActionOnCreateBtn() {
     });
 }
 
-// function setActionOnImgProductsButtons() {
-//     $(".img-button").each(function (index) {
-//         $(this).click(function () {
-//             getImgProduct($(this).val());
-//             document.getElementById('imgModal').style.display = "block";
-//         })
-//     })
-// }
+function setActionOnImgProductsButtons() {
+    $(".img-button").each(function (index) {
+        $(this).click(function () {
+            getImgProduct($(this).val());
+        })
+    })
+}
+
+function getImgProduct(id) {
+    $('#img-container').html('');
+    $.ajax({
+        url: mainUrl + "/product/findById?id=" + id,
+        type: "GET",
+        contentType: "application/json",
+        success: function (product) {
+            $('#img-container').append('<img class="product-image" src="' + mainUrl + '/img/' + product.pathToImage + '">')
+            document.getElementById('imgModal').style.display = "block";
+        },
+        error: function (error) {
+            console.log(error);
+        }
+    });
+}
 
 function setActionOnUpdateProductButtons() {
     $(".buttonUpdate").each(function (index) {
@@ -179,21 +190,6 @@ function setActionOnUpdateProductButtons() {
     })
 }
 
-// function getImgProduct(id) {
-//     $('#img-container').html('');
-//     $.ajax({
-//         url: mainUrl + "/product/findById?id=" + id,
-//         type: "GET",
-//         contentType: "application/json",
-//         success: function (product) {
-//             $('#img-container').append('<img class="product-image" src="' + mainUrl + '/img/' + product.pathToImage + '">')
-//         },
-//         error: function (error) {
-//             console.log(error.message);
-//         }
-//     });
-// }
-
 function getProductById(id) {
     $.ajax({
         url: mainUrl + "/product/findById?id=" + id,
@@ -204,7 +200,6 @@ function getProductById(id) {
             $("#timeMinutesUpdate").val(product.timeMinutes);
             $("#priceUpdate").val(product.price);
             $("#categoryNameUpdate").val(product.categoryName);
-            // $("#getFileUpdate").val(product.fileRequest);
         },
         error: function (error) {
             console.log(error.message);
@@ -332,8 +327,8 @@ function setModalCategoryConfiguration() {
 
     // When the user clicks anywhere outside of the modal, close it
     window.onclick = function (event) {
-        if (event.target == modal) {
-            modal.style.display = "none";
+        if (event.target == modalCategory) {
+            modalCategory.style.display = "none";
         }
     };
 }
@@ -395,61 +390,3 @@ function getBase64(file) {
     reader.onerror = error => reject(error);
     });
 }
-
-// function getFile(elementId) {
-//     document.getElementById(elementId).onclick = function(){
-//         let file = document.getElementById("getFile").files[0];
-//         let request = {
-//             fileName:  $("#name").val(),
-//             data: getBase64(file)
-//         }
-//         return request;
-//     };
-// }
-
-// function getFile(elementId) {
-//     document.getElementById(elementId).onclick = function(){
-//         let file = document.getElementById("getFile").files[0];
-//         getBase64(file).then(data => {
-//
-//             //work with data as src of file
-//             let request = {
-//                 // fileName:  $("#name").val(),
-//                 data: data
-//             }
-//             return request;
-//         });
-//         getBase64(file).then()
-//     };
-// }
-
-// document.getElementById("sendFile").onclick = function(){
-//     let file = document.getElementById("getFile").files[0];
-//     getBase64(file).then(data => {
-//
-//         //work with data as src of file
-//         let request = {
-//             //fileName: "someCustomFileName",
-//             data: data
-//         }
-//         $.ajax({
-//             url: "http://localhost:8080/upload",
-//             type: "POST",
-//             contentType: "application/json",
-//             data: JSON.stringify(request),
-//             success: function (data) {
-//                 addImgToContainer(data);
-//             },
-//             error: function (error) {
-//                 alert(error.message);
-//             }
-//         });
-//     });
-// };
-
-
-// function addImgToContainer(fileName) {
-//     let img = document.createElement('img');
-//     img.setAttribute('src', '/img/' + fileName);
-//     document.getElementById('uploaded-images').appendChild(img);
-// }

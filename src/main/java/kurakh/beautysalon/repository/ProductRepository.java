@@ -3,6 +3,7 @@ package kurakh.beautysalon.repository;
 import kurakh.beautysalon.entity.Product;
 import kurakh.beautysalon.specification.ProductSpecification;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
@@ -18,6 +19,4 @@ public interface ProductRepository extends JpaRepository<Product, Long>, JpaSpec
     Page<Product> findAllByNameLike(Pageable pageable, String name);
 
     List<Product> findProductsById(List<Long> productsId);
-
-//    Page<Product> findAll(ProductSpecification productSpecification, Pageable toPageable);
 }

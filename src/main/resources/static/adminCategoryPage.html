@@ -21,6 +21,8 @@
         <form>
             <label for="nameCategory">Назва категорії </label>
             <input type="text" id="nameCategory" name="name" placeholder="Name..">
+            <label for="getFileCategory">Додати зображення</label>
+            <input type="file" id="getFileCategory">
             <input type="button" id="buttonCreateCategory" value="Створити">
         </form>
     </div>
@@ -30,7 +32,9 @@
         <tr>
             <th>id категорії</th>
             <th>Назва категорії</th>
+            <th>Зображення</th>
             <th>Кнопка для видалення</th>
+            <th>Кнопка для оновлення</th>
         </tr>
         </thead>
         <tbody id="allElements"></tbody>
@@ -38,7 +42,8 @@
 
     <!--<script src="script.js"></script>-->
     <script>
-        var mainUrl = "http://localhost:8080";
+        let mainUrl = "http://localhost:8080";
+        // let mainUrl = "http://localhost:8000";
 
         getAllCreatedCategories();
         setActionOnCreateCategoryBtn();
@@ -70,7 +75,15 @@
             tableOfCategories.append('<tr>' +
                 '<td>' + category.id + '</td>' +
                 '<td>' + category.name + '</td>' +
+                '<td>' +
+                    '<a href="' + mainUrl + '/img/' + category.pathToImage + '" target="_blank">' +
+                        '<button class="img-button" value="' + category.id + '" onclick="getImg(' + mainUrl + '/img/' + category.pathToImage + ')">' +
+                        'Переглянути зображення' +
+                        '</button>' +
+                    '</a>' +
+                '</td>' +
                 '<td><button class="button" id="buttonDeleteCategory" value="' + category.id + '">Видалити</button></td>' +
+                '<td><button class="buttonUpdate" value="' + category.id + '">Оновити</button></td>' +
                 '</tr>');
         }
 
@@ -85,7 +98,7 @@
                             location.reload();
                         },
                         error: function (error) {
-                            console.log(error.message);
+                            console.log(error);
                         }
                     });
                 })
@@ -94,29 +107,42 @@
         }
 
         function setActionOnCreateCategoryBtn() {
-            $("#buttonCreateCategory").click(function () {
+            $("#buttonCreateCategory").click(function(){
+                let file = document.getElementById("getFileCategory").files[0];
+                getBase64(file).then(data => {
 
-                var name = $("#nameCategory").val();
+                    let category = {
+                        "fileRequest": {
+                            "fileName": $("#nameCategory").val(),
+                            "data": data
+                        },
+                        "name": $("#nameCategory").val()
+                    };
 
-                var newCategory = {
-                    "name": name
-                };
-
-                $.ajax({
-                    url: mainUrl + "/category",
-                    type: "POST",
-                    contentType: "application/json",
-                    data: JSON.stringify(newCategory),
-                    success: function (data) {
-                        location.reload();
-                    },
-                    error: function (error) {
-                        console.log(error.message);
-                    }
+                    $.ajax({
+                        url: mainUrl + "/category",
+                        type: "POST",
+                        contentType: "application/json",
+                        data: JSON.stringify(category),
+                        success: function (data) {
+                            console.log(data);
+                            location.reload();
+                        },
+                        error: function (error) {
+                            alert(error);
+                            console.log(error);
+                        }
+                    });
                 });
-//            } else {
-//                alert("Всі поля повинні бути заповнені")
-//            }
+            });
+        }
+
+        function getBase64(file) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.readAsDataURL(file);
+                reader.onload = () => resolve(reader.result);
+                reader.onerror = error => reject(error);
             });
         }
 

@@ -15,8 +15,11 @@ public class CategoryResponse {
 
     private String name;
 
+    private String pathToImage;
+
     public CategoryResponse(Category category) {
         id = category.getId();
         name = category.getName();
+        pathToImage = category.getPathToImg();
     }
 }

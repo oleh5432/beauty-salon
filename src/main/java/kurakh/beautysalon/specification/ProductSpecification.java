@@ -22,7 +22,9 @@ public class ProductSpecification implements Specification<Product> {
 
     @Override
     public Predicate toPredicate(Root<Product> r, CriteriaQuery<?> cq, CriteriaBuilder cb) {
-        findByCategory(r, cb);
+        findByCategory(r
+                , cb
+        );
         findByName(r, cb);
         findByPrice(r, cb);
 
@@ -36,10 +38,14 @@ public class ProductSpecification implements Specification<Product> {
     }
 
     private void findByPrice(Root<Product> r, CriteriaBuilder cb) {
-        predicates.add(cb.between(r.get("price"), filter.getMinPrice(), filter.getMaxPrice()));
+        if (filter.getMinPrice() != null && filter.getMaxPrice() != null) {
+            predicates.add(cb.between(r.get("price"), filter.getMinPrice(), filter.getMaxPrice()));
+        }
     }
 
-    private void findByCategory(Root<Product> r, CriteriaBuilder cb) {
+    private void findByCategory(Root<Product> r
+            , CriteriaBuilder cb
+    ) {
 //        if (filter.getCategoryId() == null) return;
 
 //        Join<Product, Category> category = r.join("category");

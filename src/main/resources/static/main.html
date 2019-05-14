@@ -14,6 +14,12 @@
             flex-wrap: wrap;
         }
 
+        .controllers {
+            /*display: flex;*/
+            /*justify-content: space-evenly;*/
+            /*flex-wrap: wrap;*/
+        }
+
         .product {
             width: 31%;
             margin-bottom: 40px;
@@ -21,8 +27,10 @@
 
         .product-image {
             width: 100%;
+            /*width: 200px;*/
+            height: 300px;
+            border-radius: 8px;
         }
-
 
     </style>
 
@@ -43,6 +51,13 @@
             <option value="ASC">asc</option>
             <option value="DESC">desc</option>
         </select>
+        <select id="fieldName" value="categoryName">
+            <option value="categoryName">категорія</option>
+            <option value="name">назва</option>
+        </select>
+        <select id="categoriesId" multiple size="3">
+<!--            <option value="categoryName" >вибір катеорії</option>-->
+        </select>
         <!--<button id="pagination-confirm">OK</button>-->
     </div>
     <div class="container">
@@ -50,22 +65,28 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script>
+        let mainUrl = "http://localhost:8080";
+        // let mainUrl = "http://localhost:8000";
 
-        makeRequest();
+        makeRequestProduct();
+        makeRequestCategory();
 
-        // // $('#pagination-confirm').click(makeRequest);
+        // $('#pagination-confirm').click(makeRequest);
 
-        $('#page').change(makeRequest);
-        $('#size').change(makeRequest);
-        $('#direction').change(makeRequest);
+        $('#page').change(makeRequestProduct);
+        $('#size').change(makeRequestProduct);
+        $('#direction').change(makeRequestProduct);
+        $('#fieldName').change(makeRequestProduct);
+        $('#categoriesId').change(makeRequestProduct);
 
-
-        function makeRequest() {
+        function makeRequestProduct() {
             let page = $('#page').val() - 1;
             let size = $('#size').val();
             let direction = $('#direction').val();
+            let fieldName = $('#fieldName').val();
+            let categoriesId = $('#categoriesId').val();
             $.ajax({
-                url: "http://localhost:8080/product/page?direction=" + direction + "&fieldName=name&page=" + page + "&size=" + size,
+                url: mainUrl + "/product//page/filter?direction=" + direction + "&fieldName=" + fieldName + "&page=" + page + "&size=" + size + "&categoriesId=" + categoriesId,
                 type: 'GET',
                 contentType: 'application/json',
                 success: function (res) {
@@ -82,7 +103,7 @@
             $container.html('');
             for (let product of products) {
                 let img = product.pathToImage ?
-                    'http://localhost:8080/img/' + product.pathToImage
+                    mainUrl + '/img/' + product.pathToImage
                     : 'http://denrakaev.com/wp-content/uploads/2015/03/no-image.png';
                 $container.append(`
                     <div class="product">
@@ -90,11 +111,35 @@
                             ${product.name}
                         </h3>
                         <img class="product-image" src="${img}">
-                        <p class="product-name">Категорія: <strong>${product.categoryName}</strong></p>
+                        <p class="product-category">Категорія: <strong>${product.categoryName}</strong></p>
                         <p class="product-name">Назва послуги: <strong>${product.name}</strong></p>
                         <p class="product-timeMinutes">Тривалість: <strong>${product.timeMinutes} хв</strong></p>
                         <p class="product-price">Ціна: <strong>₴${product.price}</strong></p>
                     </div>
+                `)
+            }
+        }
+
+        function makeRequestCategory() {
+            $.ajax({
+                url: mainUrl + "/category/page?direction=ASC&fieldName=name&page=0&size=100",
+                type: 'GET',
+                contentType: 'application/json',
+                success: function (res) {
+                    appendCategoriesToContainer(res.data)
+                },
+                error: function (e) {
+                    console.log(e)
+                }
+            })
+        }
+        //
+        function appendCategoriesToContainer(categories) {
+            let $container = $('#categoriesId');
+            $container.html('');
+            for (let category of categories) {
+                $container.append(`
+                    <option value="${category.id}" selected>${category.name}</option>
                 `)
             }
         }

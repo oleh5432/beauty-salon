@@ -64,10 +64,10 @@ public class ProductController {
                                                  @RequestParam(required = false) Integer minPrice,
                                                  @RequestParam(required = false) Integer maxPrice,
                                                  @RequestParam(required = false) List<Long> categoriesId) {
-        return productService.findAll(page, size, fieldName, direction,
-                new ProductFilterRequest(name, minTimeMinutes, maxTimeMinutes,
-//                        startTime,
-                        minPrice, maxPrice, categoriesId));
+        return productService.findAll(
+                page, size, fieldName, direction, new ProductFilterRequest(name, minTimeMinutes, maxTimeMinutes,
+        //                        startTime,
+                                minPrice, maxPrice, categoriesId));
     }
 
     @GetMapping("/page")
@@ -75,9 +75,10 @@ public class ProductController {
                                                  @RequestParam Integer size,
                                                  @RequestParam(required = false) Sort.Direction direction,
                                                  @RequestParam(required = false) String fieldName,
-                                                 @RequestParam(required = false) String name
+                                                 @RequestParam(required = false) String name,
+                                                 @RequestParam(required = false) List<Long> categoriesId
     ) {
-        return productService.findAll(page, size, fieldName, direction, name);
+        return productService.findAll(page, size, fieldName, direction, name, categoriesId);
     }
 
     @PutMapping

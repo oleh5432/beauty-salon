@@ -11,6 +11,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -21,7 +22,7 @@ public class CategoryController {
     private CategoryService categoryService;
 
     @PostMapping
-    public CategoryResponse save(@RequestBody CategoryRequest categoryRequest) throws WrongInputDataException {
+    public CategoryResponse save(@RequestBody @Valid CategoryRequest categoryRequest) throws WrongInputDataException, IOException {
         return categoryService.save(categoryRequest);
     }
 
@@ -47,8 +48,8 @@ public class CategoryController {
     }
 
     @PutMapping
-    public CategoryResponse update(@RequestParam Long id,
-                                  @RequestBody CategoryRequest categoryRequest) throws WrongInputDataException {
+    public CategoryResponse update(@RequestParam @Valid Long id,
+                                  @RequestBody CategoryRequest categoryRequest) throws WrongInputDataException, IOException {
         return categoryService.update(id, categoryRequest);
     }
 

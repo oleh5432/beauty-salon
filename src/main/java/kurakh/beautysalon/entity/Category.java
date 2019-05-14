@@ -21,4 +21,6 @@ public class Category {
 
     @OneToMany(mappedBy = "category")
     private List<Product> products = new ArrayList<>();
+
+    private String pathToImg;
 }

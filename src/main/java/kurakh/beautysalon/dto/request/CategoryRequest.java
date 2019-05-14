@@ -13,4 +13,6 @@ public class CategoryRequest {
     @NotBlank
     @Size(min = 2)
     private String name;
+
+    private FileRequest fileRequest;
 }
