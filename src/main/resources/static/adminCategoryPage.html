@@ -40,6 +40,60 @@
         <tbody id="allElements"></tbody>
     </table>
 
+    <!-- The Modal update-->
+    <div id="modalUpdate" class="modal">
+
+        <!-- Modal content -->
+        <div class="modal-content">
+            <div class="modal-header">
+                <span id="closeModalUpdate" class="close">&times;</span>
+                <h2>Оновити категорію</h2>
+            </div>
+            <div class="modal-body">
+                <div>
+                    <form>
+                        <label for="categoryId">id категорії</label><br>
+                        <input type="text" id="categoryId" name="categoryId" placeholder="Name.." value="0" readonly><br>
+                        <label for="nameUpdate">Назва категорії</label><br>
+                        <input type="text" id="nameUpdate" name="name" placeholder="Name.."><br>
+                        <label for="getFileUpdate">Додати зображення</label>
+                        <input type="file" id="getFileUpdate">
+                        <input type="button" id="btnUpdateButton" value="Оновити">
+                    </form>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <h3>Форма для оновлення категорії</h3>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- The Modal Img-->
+    <div id="imgModal" class="modal">
+
+        <!-- Modal content -->
+        <div class="modal-content">
+            <div class="modal-header">
+                <span id="closeImgModal" class="close">&times;</span>
+                <h2>Перегляд зображення</h2>
+            </div>
+            <div class="modal-body">
+                <div id="img-container">
+
+                    <!--<img src="http://localhost:8080/img/Весільна зачіска.jpeg" alt="no img">-->
+                    <img src="" alt="">
+                </div>
+                <div id="img-switch">
+
+                </div>
+            </div>
+            <div class="modal-footer">
+                <h3>Форма для перегляду зображення</h3>
+            </div>
+        </div>
+    </div>
+
     <!--<script src="script.js"></script>-->
     <script>
         let mainUrl = "http://localhost:8080";
@@ -47,6 +101,9 @@
 
         getAllCreatedCategories();
         setActionOnCreateCategoryBtn();
+        setActionOnUpdateButton();
+        setModalImgConfiguration();
+        setModalUpdateConfiguration();
 
         // start when load page PS reload page for triggered http request
         function getAllCreatedCategories() {
@@ -57,6 +114,8 @@
                 success: function (dataResponse) {
                     setCreatedCategoriesToTable(dataResponse.data);
                     setActionOnDeleteButtonsCategory();
+                    setActionOnImgCategoriesButtons();
+                    setActionOnUpdateCategoryButtons();
                 },
                 error: function (error) {
                     console.log(error.message);
@@ -76,11 +135,11 @@
                 '<td>' + category.id + '</td>' +
                 '<td>' + category.name + '</td>' +
                 '<td>' +
-                    '<a href="' + mainUrl + '/img/' + category.pathToImage + '" target="_blank">' +
-                        '<button class="img-button" value="' + category.id + '" onclick="getImg(' + mainUrl + '/img/' + category.pathToImage + ')">' +
+                    // '<a href="' + mainUrl + '/img/' + category.pathToImage + '" target="_blank">' +
+                        '<button class="img-button" value="' + category.id + '">' +
                         'Переглянути зображення' +
                         '</button>' +
-                    '</a>' +
+                    // '</a>' +
                 '</td>' +
                 '<td><button class="button" id="buttonDeleteCategory" value="' + category.id + '">Видалити</button></td>' +
                 '<td><button class="buttonUpdate" value="' + category.id + '">Оновити</button></td>' +
@@ -137,6 +196,73 @@
             });
         }
 
+        //update process
+        function setActionOnUpdateButton() {
+            $("#btnUpdateButton").click(function(){
+                let file = document.getElementById("getFileUpdate").files[0];
+                getBase64(file).then(data => {
+
+                    let category = {
+                        "categoryId": $("#categoryId").val(),
+                        "fileRequest": {
+                            "fileName": $("#nameUpdate").val(),
+                            "data": data
+                        },
+                        "name": $("#nameUpdate").val()
+                    };
+
+                    $.ajax({
+                        url: mainUrl + "/category?id=" + $("#categoryId").val(),
+                        type: "PUT",
+                        contentType: "application/json",
+                        data: JSON.stringify(category),
+                        success: function (data) {
+                            console.log(data);
+                            location.reload();
+                            alert("Послугу оновлено");
+                        },
+                        error: function (error) {
+                            console.log(error);
+                        }
+                    });
+                });
+            });
+        }
+
+
+        function getCategoryById(id) {
+            // let newCategory = {};
+            $.ajax({
+                url: mainUrl + "/category/findById?id=" + id,
+                type: "GET",
+                contentType: "application/json",
+                success: function (category) {
+                    // newCategory = category;
+                    $("#nameUpdate").val(category.name);
+                },
+                error: function (error) {
+                    console.log(error);
+                }
+            });
+            // return newCategory;
+        }
+
+        // function setInputValueForUpdateCategory(category) {
+        //     $("#nameUpdate").val(category.name);
+        // }
+
+        function setActionOnUpdateCategoryButtons() {
+            $(".buttonUpdate").each(function (index) {
+                $(this).click(function () {
+                    $('#categoryId').val($(this).val());
+                    // дописати функцію яка повертає один продукт за id, щоб можна було відразу підставити при кліку в інпути старі значення
+                    // setInputValueForUpdateCategory(getCategoryById($(this).val()));
+                    getCategoryById($(this).val());
+                    document.getElementById('modalUpdate').style.display = "block";
+                })
+            })
+        }
+
         function getBase64(file) {
             return new Promise((resolve, reject) => {
                 const reader = new FileReader();
@@ -144,6 +270,71 @@
                 reader.onload = () => resolve(reader.result);
                 reader.onerror = error => reject(error);
             });
+        }
+
+        function setActionOnImgCategoriesButtons() {
+            $(".img-button").each(function (index) {
+                $(this).click(function () {
+                    getImgCategory($(this).val());
+                })
+            })
+        }
+
+        function getImgCategory(id) {
+            $('#img-container').html('');
+            $.ajax({
+                url: mainUrl + "/category/findById?id=" + id,
+                type: "GET",
+                contentType: "application/json",
+                success: function (category) {
+                    $('#img-container').append('<img class="category-image" src="' + mainUrl + '/img/' + category.pathToImage + '">')
+                    document.getElementById('imgModal').style.display = "block";
+                },
+                error: function (error) {
+                    console.log(error);
+                }
+            });
+        }
+
+        function setModalImgConfiguration() {
+            // Get the modal
+            var modal = document.getElementById('imgModal');
+
+            // Get the <span> element that closes the modal
+            var span = document.getElementById('closeImgModal');
+
+            // When the user clicks on <span> (x), close the modal
+            span.onclick = function () {
+                modal.style.display = "none";
+            };
+
+            // When the user clicks anywhere outside of the modal, close it
+            window.onclick = function (event) {
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+            };
+        }
+
+        //конфіг для модального вікна оновлення
+        function setModalUpdateConfiguration() {
+            // Get the modal
+            var modal = document.getElementById('modalUpdate');
+
+            // Get the <span> element that closes the modal
+            var span = document.getElementById('closeModalUpdate');
+
+            // When the user clicks on <span> (x), close the modal
+            span.onclick = function () {
+                modal.style.display = "none";
+            };
+
+            // When the user clicks anywhere outside of the modal, close it
+            window.onclick = function (event) {
+                if (event.target == modal) {
+                    modal.style.display = "none";
+                }
+            };
         }
 
     </script>

@@ -8,8 +8,6 @@ setModalCategoryConfiguration();
 setModalUpdateConfiguration();
 setModalImgConfiguration();
 
-// setActionOnImgProductsButtons();
-
 setActionOnUpdateProductButtons();
 setActionOnUpdateButton();
 
@@ -202,7 +200,7 @@ function getProductById(id) {
             $("#categoryNameUpdate").val(product.categoryName);
         },
         error: function (error) {
-            console.log(error.message);
+            console.log(error);
         }
     });
 }
