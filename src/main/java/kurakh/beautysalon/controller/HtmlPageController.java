@@ -11,6 +11,11 @@ public class HtmlPageController {
         return "main.html";
     }
 
+    @RequestMapping("/all-products")
+    public String allProductsPage(){
+        return "allProducts.html";
+    }
+
     @RequestMapping("/admin")
     public String adminPage(){
         return "adminPage.html";
