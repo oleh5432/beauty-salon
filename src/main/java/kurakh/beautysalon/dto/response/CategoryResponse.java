@@ -5,8 +5,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.List;
-
 @Getter
 @Setter
 @NoArgsConstructor
@@ -17,9 +15,13 @@ public class CategoryResponse {
 
     private String pathToImage;
 
+    private String sectionName;
+
     public CategoryResponse(Category category) {
         id = category.getId();
         name = category.getName();
         pathToImage = category.getPathToImg();
+        if(category.getSection() != null)
+            sectionName = category.getSection().getName();
     }
 }

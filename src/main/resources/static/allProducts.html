@@ -48,8 +48,8 @@
         <option value="2">2</option>
     </select>
     <select id="direction" value="ASC">
-        <option value="ASC">asc</option>
-        <option value="DESC">desc</option>
+        <option value="ASC">А-Я</option>
+        <option value="DESC">Я-А</option>
     </select>
     <select id="fieldName" value="categoryName">
         <option value="categoryName">категорія</option>
@@ -86,7 +86,7 @@
         let fieldName = $('#fieldName').val();
         let categoriesId = $('#categoriesId').val();
         $.ajax({
-            url: mainUrl + "/product//page/filter?direction=" + direction + "&fieldName=" + fieldName + "&page=" + page + "&size=" + size + "&categoriesId=" + categoriesId,
+            url: mainUrl + "/product/page/filter?direction=" + direction + "&fieldName=" + fieldName + "&page=" + page + "&size=" + size + "&categoriesId=" + categoriesId,
             type: 'GET',
             contentType: 'application/json',
             success: function (res) {

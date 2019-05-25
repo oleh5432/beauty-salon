@@ -3,7 +3,6 @@ package kurakh.beautysalon.service;
 import kurakh.beautysalon.dto.request.CategoryRequest;
 import kurakh.beautysalon.dto.response.CategoryResponse;
 import kurakh.beautysalon.dto.response.DataResponse;
-import kurakh.beautysalon.dto.response.ProductResponse;
 import kurakh.beautysalon.entity.Category;
 import kurakh.beautysalon.exception.WrongInputDataException;
 import kurakh.beautysalon.repository.CategoryRepository;
@@ -13,7 +12,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import javax.validation.Valid;
 import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -26,6 +24,9 @@ public class CategoryService {
 
     @Autowired
     private FileService fileService;
+
+    @Autowired
+    private SectionService sectionService;
 
     public CategoryResponse save(CategoryRequest categoryRequest) throws WrongInputDataException, IOException {
         return new CategoryResponse(categoryRepository.save(categoryRequestToCategory(categoryRequest, null)));
@@ -49,6 +50,7 @@ public class CategoryService {
         category.setName(categoryRequest.getName());
         String file = fileService.saveFile(categoryRequest.getFileRequest());
         category.setPathToImg(file);
+        category.setSection(sectionService.findOneById(categoryRequest.getSectionId()));
         return category;
     }
 

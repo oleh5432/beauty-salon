@@ -32,37 +32,114 @@
             border-radius: 8px;
         }
 
+        #navbar ul{
+            display: none;
+            background-color: #f90;
+            position: absolute;
+            top: 100%;
+        }
+        #navbar li:hover ul { display: block; }
+        #navbar, #navbar ul{
+            margin: 0;
+            padding: 0;
+            list-style-type: none;
+        }
+        #navbar {
+            text-align: center;
+            height: 30px;
+            background-color: #666;
+            padding-left: 25px;
+            /*min-width: 470px;*/
+            width: max-content;
+        }
+        #navbar li {
+            float: left;
+            position: center;
+            height: 100%;
+        }
+        #navbar li a {
+            display: block;
+            padding: 6px;
+            width: 100px;
+            color: #fff;
+            text-decoration: none;
+            text-align: center;
+        }
+        #navbar ul li { float: none; }
+        #navbar li:hover { background-color: #f90; }
+        #navbar ul li:hover { background-color: #666; }
+
     </style>
+    <div id="wrapper">
+        <header>
+            <div class="menu">
+                <a href="/"><button class="menu-button" id="openMain">Головна</button></a>
+                <a href="/admin"><button class="menu-button" id="openAdmin">Адміністратор</button></a>
+                <a href="/login"><button class="menu-button" id="openSignIn">Увійти</button></a> <br>
+                <a href="/all-products"><button class="menu-button" id="openAllProducts">Всі послуги</button></a>
+            </div>
+            <nav>
+                <ul id="navbar">
+                    <li><a href="#">Головна</a></li>
+                    <li><a href="#">Новини</a></li>
+                    <li><a href="#">Послуги</a>
+                        <ul>
+                            <li><a href="#">Перукарські послуги</a></li>
+                            <li><a href="#">Візаж</a></li>
+                            <li><a href="#">Манікюр</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="#">Про нас</a></li>
+                    <li><a href="#">Увійти</a></li>
+                </ul>
+            </nav>
+        </header>
 
-    <div class="menu">
-        <a href="/"><button class="menu-button" id="openMain">Головна</button></a>
-        <a href="/admin"><button class="menu-button" id="openAdmin">Адміністратор</button></a>
-        <a href="/login"><button class="menu-button" id="openSignIn">Увійти</button></a> <br>
-        <a href="/all-products"><button class="menu-button" id="openAllProducts">Всі послуги</button></a>
+        <aside>
+        </aside>
+
+        <main>
+            <div class="container">
+                <!--        <div class="product">-->
+                <!--            <h3 class="product-title">-->
+                <!--                Перукарські послуги-->
+                <!--            </h3>-->
+                <!--            <img class="product-image" src="${img}">-->
+                <!--        </div>-->
+                <!--        <div class="product">-->
+                <!--            <h3 class="product-title">-->
+                <!--                Візаж-->
+                <!--            </h3>-->
+                <!--            <img class="product-image" src="${img}">-->
+                <!--        </div>-->
+                <!--        <div class="product">-->
+                <!--            <h3 class="product-title">-->
+                <!--                Манікюр-->
+                <!--            </h3>-->
+                <!--            <img class="product-image" src="${img}">-->
+                <!--        </div>-->
+            </div>
+        </main>
+
+        <footer>
+        </footer>
     </div>
 
-    <div class="controllers">
-        <input type="text" id="page" value="1">
-        <select id="size" value="10">
-            <option value="10">10</option>
-            <option value="5">5</option>
-            <option value="2">2</option>
-        </select>
-        <select id="direction" value="ASC">
-            <option value="ASC">asc</option>
-            <option value="DESC">desc</option>
-        </select>
-        <select id="fieldName" value="categoryName">
-            <option value="categoryName">категорія</option>
-            <option value="name">назва</option>
-        </select>
-        <select id="categoriesId" multiple size="3">
-<!--            <option value="categoryName" >вибір катеорії</option>-->
-        </select>
-        <!--<button id="pagination-confirm">OK</button>-->
-    </div>
-    <div class="container">
-    </div>
+
+
+<!--    <div class="controllers">-->
+<!--        <input type="text" id="page" value="1">-->
+<!--        <select id="size" value="10">-->
+<!--            <option value="10">10</option>-->
+<!--            <option value="5">5</option>-->
+<!--            <option value="2">2</option>-->
+<!--        </select>-->
+<!--        <select id="direction" value="ASC">-->
+<!--            <option value="ASC">А-Я</option>-->
+<!--            <option value="DESC">Я-А</option>-->
+<!--        </select>-->
+<!--    </div>-->
+
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script>
@@ -70,7 +147,7 @@
         // let mainUrl = "http://localhost:8000";
 
         makeRequestProduct();
-        makeRequestCategory();
+        // makeRequestCategory();
 
         // $('#pagination-confirm').click(makeRequest);
 
@@ -87,7 +164,9 @@
             let fieldName = $('#fieldName').val();
             let categoriesId = $('#categoriesId').val();
             $.ajax({
-                url: mainUrl + "/product//page/filter?direction=" + direction + "&fieldName=" + fieldName + "&page=" + page + "&size=" + size + "&categoriesId=" + categoriesId,
+                // url: mainUrl + "/product/page/filter?direction=" + direction + "&fieldName=" + fieldName + "&page=" + page + "&size=" + size + "&categoriesId=" + categoriesId,
+                // url: mainUrl + "/product/page/?direction=" + direction + "&fieldName=" + fieldName + "&page=" + page + "&size=" + size + "&categoriesId=" + categoriesId,
+                url: mainUrl + "/category/page?direction=ASC&fieldName=name&page=0&size=100",
                 type: 'GET',
                 contentType: 'application/json',
                 success: function (res) {
@@ -99,51 +178,47 @@
             })
         }
         //
-        function appendProductsToContainer(products) {
+        function appendProductsToContainer(categories) {
             let $container = $('.container');
             $container.html('');
-            for (let product of products) {
-                let img = product.pathToImage ?
-                    mainUrl + '/img/' + product.pathToImage
+            for (let category of categories) {
+                let img = category.pathToImage ?
+                    mainUrl + '/img/' + category.pathToImage
                     : 'http://denrakaev.com/wp-content/uploads/2015/03/no-image.png';
                 $container.append(`
                     <div class="product">
                         <h3 class="product-title">
-                            ${product.name}
+                            ${category.name}
                         </h3>
                         <img class="product-image" src="${img}">
-                        <p class="product-category">Категорія: <strong>${product.categoryName}</strong></p>
-                        <p class="product-name">Назва послуги: <strong>${product.name}</strong></p>
-                        <p class="product-timeMinutes">Тривалість: <strong>${product.timeMinutes} хв</strong></p>
-                        <p class="product-price">Ціна: <strong>₴${product.price}</strong></p>
                     </div>
                 `)
             }
         }
 
-        function makeRequestCategory() {
-            $.ajax({
-                url: mainUrl + "/category/page?direction=ASC&fieldName=name&page=0&size=100",
-                type: 'GET',
-                contentType: 'application/json',
-                success: function (res) {
-                    appendCategoriesToContainer(res.data)
-                },
-                error: function (e) {
-                    console.log(e)
-                }
-            })
-        }
+        // function makeRequestCategory() {
+        //     $.ajax({
+        //         url: mainUrl + "/category/page?direction=ASC&fieldName=name&page=0&size=100",
+        //         type: 'GET',
+        //         contentType: 'application/json',
+        //         success: function (res) {
+        //             appendCategoriesToContainer(res.data)
+        //         },
+        //         error: function (e) {
+        //             console.log(e)
+        //         }
+        //     })
+        // }
         //
-        function appendCategoriesToContainer(categories) {
-            let $container = $('#categoriesId');
-            $container.html('');
-            for (let category of categories) {
-                $container.append(`
-                    <option value="${category.id}" selected>${category.name}</option>
-                `)
-            }
-        }
+        // function appendCategoriesToContainer(categories) {
+        //     let $container = $('#categoriesId');
+        //     $container.html('');
+        //     for (let category of categories) {
+        //         $container.append(`
+        //             <option value="${category.id}" selected>${category.name}</option>
+        //         `)
+        //     }
+        // }
 
         // function getPaginationRequest() {
         //     return {
