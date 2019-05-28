@@ -4,7 +4,6 @@ import kurakh.beautysalon.dto.request.ProductFilterRequest;
 import kurakh.beautysalon.entity.Category;
 import kurakh.beautysalon.entity.Product;
 import org.springframework.data.jpa.domain.Specification;
-import org.springframework.data.domain.Pageable;
 
 import javax.persistence.criteria.*;
 import java.util.ArrayList;
@@ -22,9 +21,7 @@ public class ProductSpecification implements Specification<Product> {
 
     @Override
     public Predicate toPredicate(Root<Product> r, CriteriaQuery<?> cq, CriteriaBuilder cb) {
-        findByCategory(r
-                , cb
-        );
+        findByCategory(r, cb);
         findByName(r, cb);
         findByPrice(r, cb);
 
@@ -43,9 +40,7 @@ public class ProductSpecification implements Specification<Product> {
         }
     }
 
-    private void findByCategory(Root<Product> r
-            , CriteriaBuilder cb
-    ) {
+    private void findByCategory(Root<Product> r, CriteriaBuilder cb) {
 //        if (filter.getCategoryId() == null) return;
 
 //        Join<Product, Category> category = r.join("category");

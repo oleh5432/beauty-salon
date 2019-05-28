@@ -1,6 +1,8 @@
 package kurakh.beautysalon.controller;
 
+import kurakh.beautysalon.dto.request.CategoryFilterRequest;
 import kurakh.beautysalon.dto.request.CategoryRequest;
+import kurakh.beautysalon.dto.request.ProductFilterRequest;
 import kurakh.beautysalon.dto.response.CategoryResponse;
 import kurakh.beautysalon.dto.response.DataResponse;
 import kurakh.beautysalon.dto.response.ProductResponse;
@@ -37,14 +39,35 @@ public class CategoryController {
         return categoryService.findById(id);
     }
 
+//    @GetMapping("/page/filter")
+//    public DataResponse<CategoryResponse> findAll(@RequestParam Integer page,
+//                                                 @RequestParam Integer size,
+//                                                 @RequestParam(required = false) Sort.Direction direction,
+//                                                 @RequestParam(required = false) String fieldName,
+//                                                 @RequestParam(required = false) String name,
+//                                                 @RequestParam(required = false) List<Long> sectionsId) {
+//        return categoryService.findAll(page, size, fieldName, direction, new CategoryFilterRequest(name, sectionsId));
+//    }
+
+//    @GetMapping("/page")
+//    public DataResponse<CategoryResponse> findAll(@RequestParam Integer page,
+//                                                  @RequestParam Integer size,
+//                                                  @RequestParam(required = false) Sort.Direction direction,
+//                                                  @RequestParam(required = false) String fieldName,
+//                                                  @RequestParam(required = false) String name
+//    ) {
+//        return categoryService.findAll(page, size, fieldName, direction, name);
+//    }
+
     @GetMapping("/page")
     public DataResponse<CategoryResponse> findAll(@RequestParam Integer page,
                                                   @RequestParam Integer size,
                                                   @RequestParam(required = false) Sort.Direction direction,
                                                   @RequestParam(required = false) String fieldName,
-                                                  @RequestParam(required = false) String name
+                                                  @RequestParam(required = false) String name,
+                                                  @RequestParam(required = false) List<Long> sectionsId
     ) {
-        return categoryService.findAll(page, size, fieldName, direction, name);
+        return categoryService.findAll(page, size, fieldName, direction, name, sectionsId);
     }
 
     @PutMapping

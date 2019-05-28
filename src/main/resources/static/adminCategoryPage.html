@@ -21,6 +21,9 @@
         <form>
             <label for="nameCategory">Назва категорії </label>
             <input type="text" id="nameCategory" name="name" placeholder="Name..">
+            <select id="sectionsId">
+
+            </select>
             <label for="getFileCategory">Додати зображення</label>
             <input type="file" id="getFileCategory">
             <input type="button" id="buttonCreateCategory" value="Створити">
@@ -32,6 +35,7 @@
         <tr>
             <th>id категорії</th>
             <th>Назва категорії</th>
+            <th>Розділ</th>
             <th>Зображення</th>
             <th>Кнопка для видалення</th>
             <th>Кнопка для оновлення</th>
@@ -56,6 +60,10 @@
                         <input type="text" id="categoryId" name="categoryId" placeholder="Name.." value="0" readonly><br>
                         <label for="nameUpdate">Назва категорії</label><br>
                         <input type="text" id="nameUpdate" name="name" placeholder="Name.."><br>
+                        <label for="sectionsIdUpdate">Розділ</label><br>
+                        <select id="sectionsIdUpdate">
+
+                        </select><br>
                         <label for="getFileUpdate">Додати зображення</label>
                         <input type="file" id="getFileUpdate">
                         <input type="button" id="btnUpdateButton" value="Оновити">
@@ -104,6 +112,7 @@
         setModalUpdateConfiguration();
         setActionOnCreateCategoryBtn();
         setActionOnUpdateButton();
+        makeRequestSection();
 
         // start when load page PS reload page for triggered http request
         function getAllCreatedCategories() {
@@ -134,6 +143,7 @@
             tableOfCategories.append('<tr>' +
                 '<td>' + category.id + '</td>' +
                 '<td>' + category.name + '</td>' +
+                '<td>' + category.sectionName + '</td>' +
                 '<td>' +
                     // '<a href="' + mainUrl + '/img/' + category.pathToImage + '" target="_blank">' +
                         '<button class="img-button" value="' + category.id + '">' +
@@ -175,7 +185,8 @@
                             "fileName": $("#nameCategory").val(),
                             "data": data
                         },
-                        "name": $("#nameCategory").val()
+                        "name": $("#nameCategory").val(),
+                        "sectionId": $("#sectionId").val()
                     };
 
                     $.ajax({
@@ -204,6 +215,7 @@
 
                     let category = {
                         "categoryId": $("#categoryId").val(),
+                        "sectionId": $("#sectionsIdUpdate").val(),
                         "fileRequest": {
                             "fileName": $("#nameUpdate").val(),
                             "data": data
@@ -335,6 +347,41 @@
                     modal.style.display = "none";
                 }
             };
+        }
+
+        function makeRequestSection() {
+            $.ajax({
+                url: mainUrl + "/section/page?direction=ASC&fieldName=name&page=0&size=100",
+                type: 'GET',
+                contentType: 'application/json',
+                success: function (res) {
+                    appendSectionsToContainer(res.data);
+                    appendSectionsToContainerUpdate(res.data);
+                },
+                error: function (e) {
+                    console.log(e)
+                }
+            })
+        }
+        //
+        function appendSectionsToContainer(sections) {
+            let $container = $('#sectionsId');
+            $container.html('');
+            for (let section of sections) {
+                $container.append(`
+                    <option value="${section.id}" selected>${section.name}</option>
+                `)
+            }
+        }
+
+        function appendSectionsToContainerUpdate(sections) {
+            let $container = $('#sectionsIdUpdate');
+            $container.html('');
+            for (let section of sections) {
+                $container.append(`
+                    <option value="${section.id}" selected>${section.name}</option>
+                `)
+            }
         }
 
     </script>

@@ -1,6 +1,5 @@
 package kurakh.beautysalon.dto.request;
 
-import kurakh.beautysalon.entity.Category;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -13,22 +12,7 @@ import java.util.List;
 @Setter
 public class ProductFilterRequest {
 
-//    private String name;
-//
-//    private Integer minTimeMinutes = 0;
-//
-//    private Integer maxTimeMinutes = Integer.MAX_VALUE;
-//
-//    private LocalDateTime startTime;
-//
-//    private Integer minPrice = 0;
-//
-//    private Integer maxPrice = Integer.MAX_VALUE;
-//
-//    private List<Long> categoriesId = new ArrayList<>();
-
     private PaginationRequest paginationRequest;
-
 
     private String name;
 

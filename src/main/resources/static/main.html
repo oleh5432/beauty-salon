@@ -14,6 +14,11 @@
             flex-wrap: wrap;
         }
 
+        a {
+            text-decoration: none; /* Отменяем подчеркивание у ссылки */
+            color: rgba(38,83,106,0.91);
+        }
+
         .controllers {
             /*display: flex;*/
             /*justify-content: space-evenly;*/
@@ -45,16 +50,14 @@
             list-style-type: none;
         }
         #navbar {
-            text-align: center;
             height: 30px;
             background-color: #666;
             padding-left: 25px;
-            /*min-width: 470px;*/
-            width: max-content;
+            min-width: 470px;
         }
         #navbar li {
             float: left;
-            position: center;
+            position: relative;
             height: 100%;
         }
         #navbar li a {
@@ -72,27 +75,58 @@
     </style>
     <div id="wrapper">
         <header>
-            <div class="menu">
-                <a href="/"><button class="menu-button" id="openMain">Головна</button></a>
-                <a href="/admin"><button class="menu-button" id="openAdmin">Адміністратор</button></a>
-                <a href="/login"><button class="menu-button" id="openSignIn">Увійти</button></a> <br>
-                <a href="/all-products"><button class="menu-button" id="openAllProducts">Всі послуги</button></a>
-            </div>
-            <nav>
-                <ul id="navbar">
-                    <li><a href="#">Головна</a></li>
-                    <li><a href="#">Новини</a></li>
-                    <li><a href="#">Послуги</a>
-                        <ul>
-                            <li><a href="#">Перукарські послуги</a></li>
-                            <li><a href="#">Візаж</a></li>
-                            <li><a href="#">Манікюр</a></li>
-                        </ul>
-                    </li>
-                    <li><a href="#">Про нас</a></li>
-                    <li><a href="#">Увійти</a></li>
-                </ul>
-            </nav>
+<!--            <div class="menu">-->
+<!--                <a href="/"><button class="menu-button" id="openMain">Головна</button></a>-->
+<!--                <a href="/admin"><button class="menu-button" id="openAdmin">Адміністратор</button></a>-->
+<!--                <a href="/login"><button class="menu-button" id="openSignIn">Увійти</button></a> <br>-->
+<!--                <a href="/all-products"><button class="menu-button" id="openAllProducts">Всі послуги</button></a>-->
+<!--            </div>-->
+
+<!--                <div class="controllers">-->
+<!--                    <input type="text" id="page" value="1">-->
+<!--                    <select id="size" value="10">-->
+<!--                        <option value="10">10</option>-->
+<!--                        <option value="5">5</option>-->
+<!--                        <option value="2">2</option>-->
+<!--                    </select>-->
+<!--                    <select id="direction" value="ASC">-->
+<!--                        <option value="ASC">А-Я</option>-->
+<!--                        <option value="DESC">Я-А</option>-->
+<!--                    </select>-->
+<!--                </div>-->
+
+<!--            <nav>-->
+<!--                <ul id="navbar">-->
+<!--                    <li><a href="/">Головна</a></li>-->
+<!--                    <li><a href="#">Новини</a></li>-->
+<!--                    <li><a href="#">Послуги</a>-->
+<!--                        <ul>-->
+<!--                            <li><a href="/all-products">Всі послуги</a></li>-->
+<!--                            <li><a href="#">Перукарські послуги</a></li>-->
+<!--                            <li><a href="#">Візаж</a></li>-->
+<!--                            <li><a href="#">Манікюр</a></li>-->
+<!--                        </ul>-->
+<!--                    </li>-->
+<!--                    <li><a href="#">Про нас</a></li>-->
+<!--                    <li><a href="/admin">Адміністратор</a></li>-->
+<!--                    <li><a href="/login">Увійти</a></li>-->
+<!--                </ul>-->
+<!--            </nav>-->
+            <ul id="navbar">
+                <li><a href="#">Головна</a></li>
+                <li><a href="#">Новини</a></li>
+                <li><a href="#">Послуги</a>
+                    <ul>
+                        <li><a href="/all-products">Всі послуги</a></li>
+                        <li><a href="#">Перукарські послуги</a></li>
+                        <li><a href="#">Візаж</a></li>
+                        <li><a href="#">Манікюр</a></li>
+                    </ul>
+                </li>
+                <li><a href="#">Про нас</a></li>
+                <li><a href="/admin">Адміністратор</a></li>
+                <li><a href="/login">Увійти</a></li>
+            </ul>
         </header>
 
         <aside>
@@ -100,46 +134,12 @@
 
         <main>
             <div class="container">
-                <!--        <div class="product">-->
-                <!--            <h3 class="product-title">-->
-                <!--                Перукарські послуги-->
-                <!--            </h3>-->
-                <!--            <img class="product-image" src="${img}">-->
-                <!--        </div>-->
-                <!--        <div class="product">-->
-                <!--            <h3 class="product-title">-->
-                <!--                Візаж-->
-                <!--            </h3>-->
-                <!--            <img class="product-image" src="${img}">-->
-                <!--        </div>-->
-                <!--        <div class="product">-->
-                <!--            <h3 class="product-title">-->
-                <!--                Манікюр-->
-                <!--            </h3>-->
-                <!--            <img class="product-image" src="${img}">-->
-                <!--        </div>-->
             </div>
         </main>
 
         <footer>
         </footer>
     </div>
-
-
-
-<!--    <div class="controllers">-->
-<!--        <input type="text" id="page" value="1">-->
-<!--        <select id="size" value="10">-->
-<!--            <option value="10">10</option>-->
-<!--            <option value="5">5</option>-->
-<!--            <option value="2">2</option>-->
-<!--        </select>-->
-<!--        <select id="direction" value="ASC">-->
-<!--            <option value="ASC">А-Я</option>-->
-<!--            <option value="DESC">Я-А</option>-->
-<!--        </select>-->
-<!--    </div>-->
-
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script>
@@ -166,7 +166,7 @@
             $.ajax({
                 // url: mainUrl + "/product/page/filter?direction=" + direction + "&fieldName=" + fieldName + "&page=" + page + "&size=" + size + "&categoriesId=" + categoriesId,
                 // url: mainUrl + "/product/page/?direction=" + direction + "&fieldName=" + fieldName + "&page=" + page + "&size=" + size + "&categoriesId=" + categoriesId,
-                url: mainUrl + "/category/page?direction=ASC&fieldName=name&page=0&size=100",
+                url: mainUrl + "/section/page?direction=ASC&fieldName=name&page=0&size=100",
                 type: 'GET',
                 contentType: 'application/json',
                 success: function (res) {
@@ -187,9 +187,11 @@
                     : 'http://denrakaev.com/wp-content/uploads/2015/03/no-image.png';
                 $container.append(`
                     <div class="product">
-                        <h3 class="product-title">
-                            ${category.name}
-                        </h3>
+                        <a href="/all-products">
+                            <h3 class="product-title">
+                                ${category.name}
+                            </h3>
+                        </a>
                         <img class="product-image" src="${img}">
                     </div>
                 `)
