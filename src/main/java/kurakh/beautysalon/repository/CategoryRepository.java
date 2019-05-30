@@ -22,7 +22,7 @@ public interface CategoryRepository extends JpaRepository<Category, Long>, JpaSp
 
     Page<Category> findAllBySection_Id(Pageable pageable, List<Long> sectionsId);
 
-    Page<Category> findAllBySectionId(Pageable pageable, List<Long> sectionsId);
+//    Page<Category> findAllBySectionId(Pageable pageable, List<Long> sectionsId);
 
 
 }

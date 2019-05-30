@@ -113,7 +113,7 @@
 <!--                </ul>-->
 <!--            </nav>-->
             <ul id="navbar">
-                <li><a href="#">Головна</a></li>
+                <li><a href="/">Головна</a></li>
                 <li><a href="#">Новини</a></li>
                 <li><a href="#">Послуги</a>
                     <ul>
@@ -187,51 +187,75 @@
                     : 'http://denrakaev.com/wp-content/uploads/2015/03/no-image.png';
                 $container.append(`
                     <div class="product">
-                        <a href="/all-products">
-                            <h3 class="product-title">
-                                ${category.name}
-                            </h3>
-                        </a>
+                        <button class="head" onclick="makeRequestCategory(${category.id})">${category.name}</button>
                         <img class="product-image" src="${img}">
                     </div>
                 `)
             }
         }
+        // makeRequestCategory(${category.id})
+        function makeRequestCategory(id) {
+            $.ajax({
+                url: mainUrl + "/category/page?direction=ASC&fieldName=name&page=0&size=100&sectionsId=" + id,
+                type: 'GET',
+                contentType: 'application/json',
+                success: function (res) {
+                    appendCategoriesToContainer(res.data)
+                },
+                error: function (e) {
+                    console.log(e)
+                }
+            })
+        }
 
-        // function makeRequestCategory() {
-        //     $.ajax({
-        //         url: mainUrl + "/category/page?direction=ASC&fieldName=name&page=0&size=100",
-        //         type: 'GET',
-        //         contentType: 'application/json',
-        //         success: function (res) {
-        //             appendCategoriesToContainer(res.data)
-        //         },
-        //         error: function (e) {
-        //             console.log(e)
-        //         }
-        //     })
-        // }
-        //
-        // function appendCategoriesToContainer(categories) {
-        //     let $container = $('#categoriesId');
-        //     $container.html('');
-        //     for (let category of categories) {
-        //         $container.append(`
-        //             <option value="${category.id}" selected>${category.name}</option>
-        //         `)
-        //     }
-        // }
+        function appendCategoriesToContainer(categories) {
+            let $container = $('.container');
+            $container.html('');
+            for (let category of categories) {
+                let img = category.pathToImage ?
+                    mainUrl + '/img/' + category.pathToImage
+                    : 'http://denrakaev.com/wp-content/uploads/2015/03/no-image.png';
+                $container.append(`
+                    <div class="product">
+                        <button class="head" onclick="makeRequestProducts(${category.id})">${category.name}</button>
+                            <img class="product-image" src="${img}">
+                    </div>
+                `)
+            }
+        }
 
-        // function getPaginationRequest() {
-        //     return {
-        //         page: $('#page').val() - 1,
-        //         size: $('#size').val(),
-        //         sortRequest: {
-        //             field: 'name',
-        //             direction: $('#direction').val()
-        //         }
-        //     };
-        // }
+        function makeRequestProducts(id) {
+            $.ajax({
+                // url: mainUrl + "/category/page?direction=ASC&fieldName=name&page=0&size=100&sectionsId=" + id,
+                // url: mainUrl + "/product/page/filter?direction=" + direction + "&fieldName=" + fieldName + "&page=" + page + "&size=" + size + "&categoriesId=" + categoriesId,
+                // url: mainUrl + "/product/page/filter?&direction=asc&fieldName=name&page=0&size=20&categoriesId=" + id,
+                url: mainUrl + "/product/page/filter?categoriesId=" + id + "&direction=ASC&fieldName=name&page=0&size=100",
+                type: 'GET',
+                contentType: 'application/json',
+                success: function (res) {
+                    appendCategoriesToContainers(res.data)
+                },
+                error: function (e) {
+                    console.log(e)
+                }
+            })
+        }
+
+        function appendCategoriesToContainers(categories) {
+            let $container = $('.container');
+            $container.html('');
+            for (let category of categories) {
+                let img = category.pathToImage ?
+                    mainUrl + '/img/' + category.pathToImage
+                    : 'http://denrakaev.com/wp-content/uploads/2015/03/no-image.png';
+                $container.append(`
+                    <div class="product">
+                        <button class="head">${category.name}</button>
+                        <img class="product-image" src="${img}">
+                    </div>
+                `)
+            }
+        }
 
     </script>
 </body>

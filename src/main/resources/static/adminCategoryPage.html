@@ -117,7 +117,7 @@
         // start when load page PS reload page for triggered http request
         function getAllCreatedCategories() {
             $.ajax({
-                url: mainUrl + "/category/page?direction=ASC&fieldName=name&page=0&size=100",
+                url: mainUrl + "/category/page?direction=ASC&fieldName=sectionName&page=0&size=100",
                 type: "GET",
                 contentType: "application/json",
                 success: function (dataResponse) {
@@ -231,7 +231,7 @@
                         success: function (data) {
                             console.log(data);
                             location.reload();
-                            alert("Послугу оновлено");
+                            alert("Категорію оновлено");
                         },
                         error: function (error) {
                             console.log(error);
@@ -251,6 +251,7 @@
                 success: function (category) {
                     // newCategory = category;
                     $("#nameUpdate").val(category.name);
+                    $('#sectionsIdUpdate option[name="'+ category.sectionName + '"]').prop('selected', true);
                 },
                 error: function (error) {
                     console.log(error);
@@ -369,7 +370,7 @@
             $container.html('');
             for (let section of sections) {
                 $container.append(`
-                    <option value="${section.id}" selected>${section.name}</option>
+                    <option value="${section.id}">${section.name}</option>
                 `)
             }
         }
@@ -379,7 +380,7 @@
             $container.html('');
             for (let section of sections) {
                 $container.append(`
-                    <option value="${section.id}" selected>${section.name}</option>
+                    <option name="${section.name}" value="${section.id}">${section.name}</option>
                 `)
             }
         }

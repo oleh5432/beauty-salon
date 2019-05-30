@@ -95,10 +95,12 @@ public class CategoryService {
             fieldName = "id";
         }
 
-        Page<Category> categoriesPage = name == null ?
-//                categoryRepository.findAll(PageRequest.of(page, size, direction, fieldName)) :
-                categoryRepository.findAllBySectionId(PageRequest.of(page, size, direction, fieldName), sectionsId) :
-                categoryRepository.findAllByNameLike(PageRequest.of(page, size, direction, fieldName), '%' + name + '%');
+        Page<Category> categoriesPage = sectionsId == null ?
+                categoryRepository.findAll(PageRequest.of(page, size, direction, fieldName)) :
+                categoryRepository.findAllBySection_Id(PageRequest.of(page, size, direction, fieldName), sectionsId)
+//        :
+//                categoryRepository.findAllByNameLike(PageRequest.of(page, size, direction, fieldName), '%' + name + '%')
+                ;
 
         return new DataResponse<>(
                 categoriesPage.get().map(CategoryResponse::new).collect(Collectors.toList()),
