@@ -4,14 +4,14 @@ let mainUrl = "http://localhost:8080";
 getAllProducts();
 
 setModalConfiguration();
-setModalCategoryConfiguration();
+// setModalCategoryConfiguration();
 setModalUpdateConfiguration();
 setModalImgConfiguration();
 
-setActionOnUpdateProductButtons();
 setActionOnUpdateButton();
-
 setActionOnCreateBtn();
+
+getAllCategories();
 
 setActionImg2();
 function setActionImg2() {
@@ -20,11 +20,21 @@ function setActionImg2() {
     })
 }
 
+$('#page').change(getAllProducts);
+$('#size').change(getAllProducts);
+$('#direction').change(getAllProducts);
+$('#fieldName').change(getAllProducts);
+$('#categoriesId').change(getAllProducts);
+
 //start when load page PS reload page for triggered http request
 function getAllProducts() {
+    let page = $('#page').val() - 1;
+    let size = $('#size').val();
+    let direction = $('#direction').val();
+    let fieldName = $('#fieldName').val();
+    let categoriesId = $('#categoriesId').val();
     $.ajax({
-        url: mainUrl + "/product/page?direction=ASC&fieldName=name&page=0&size=1000",
-        type: "GET",
+        url: mainUrl + "/product/page/filter?direction=" + direction + "&fieldName=" + fieldName + "&page=" + page + "&size=" + size + "&categoriesId=" + categoriesId,        type: "GET",
         contentType: "application/json",
         success: function (dataResponse) {
             setProductsToTable(dataResponse.data);
@@ -39,13 +49,15 @@ function getAllProducts() {
 }
 
 function setProductsToTable(products) {
+    let $container = $('#allElementsProducts');
+    $container.html('');
     for (var i = 0; i < products.length; i++) {
         setProductToTable(products[i]);
     }
 }
 
 function setProductToTable(product) {
-    var tableOfProducts = $("#products");
+    var tableOfProducts = $("#allElementsProducts");
     tableOfProducts.append('<tr>' +
         '<td>' + product.name + '</td>' +
         '<td>' + product.timeMinutes + '</td>' +
@@ -91,7 +103,7 @@ function setActionOnUpdateButton() {
 
             let product = {
                 "productId": $("#productId").val(),
-                "categoryId": $("#categoryIdUpdate").val(),
+                "categoryId": $("#categoryNameUpdate").val(),
                 "fileRequest": {
                     "fileName": $("#nameUpdate").val(),
                     "data": data
@@ -125,7 +137,7 @@ function setActionOnCreateBtn() {
         getBase64(file).then(data => {
 
             let product = {
-                "categoryId": $("#categoryId").val(),
+                "categoryId": $("#categoryName").val(),
                 "fileRequest": {
                     "fileName": $("#name").val(),
                     "data": data
@@ -197,7 +209,8 @@ function getProductById(id) {
             $("#nameUpdate").val(product.name);
             $("#timeMinutesUpdate").val(product.timeMinutes);
             $("#priceUpdate").val(product.price);
-            $("#categoryNameUpdate").val(product.categoryName);
+            // $("#categoryNameUpdate").val(product.categoryName);
+            $('#categoryNameUpdate option[name="'+ product.categoryName + '"]').prop('selected', true);
         },
         error: function (error) {
             console.log(error);
@@ -205,19 +218,19 @@ function getProductById(id) {
     });
 }
 
-function getCategoryById(id) {
-    $.ajax({
-        url: mainUrl + "/category/findById?id=" + id,
-        type: "GET",
-        contentType: "application/json",
-        success: function (category) {
-            $("#categoryNameUpdate").val(category.name);
-        },
-        error: function (error) {
-            console.log(error.message);
-        }
-    });
-}
+// function getCategoryById(id) {
+//     $.ajax({
+//         url: mainUrl + "/category/findById?id=" + id,
+//         type: "GET",
+//         contentType: "application/json",
+//         success: function (category) {
+//             $("#categoryNameUpdate").val(category.name);
+//         },
+//         error: function (error) {
+//             console.log(error.message);
+//         }
+//     });
+// }
 
 function getAllCategories() {
     $.ajax({
@@ -225,8 +238,11 @@ function getAllCategories() {
         type: "GET",
         contentType: "application/json",
         success: function (dataResponse) {
-            setCategoriesToTable(dataResponse.data);
-            setActionOnSelectCategoryButtons();
+            // setCategoriesToTable(dataResponse.data);
+            // setActionOnSelectCategoryButtons();
+            appendCategoriesToContainer(dataResponse.data);
+            appendCategoriesToContainerCreate(dataResponse.data);
+            appendCategoriesToContainerUpdate(dataResponse.data);
         },
         error: function (error) {
             console.log(error.message);
@@ -234,38 +250,68 @@ function getAllCategories() {
     });
 }
 
-function setCategoriesToTable(categories) {
-    $('#elements').html('');
-    for (var i = 0; i < categories.length; i++) {
-        setCategoryToTable(categories[i]);
+function appendCategoriesToContainer(categories) {
+    let $container = $('#categoriesId');
+    $container.html('');
+    for (let category of categories) {
+        $container.append(`
+                    <option value="${category.id}" selected>${category.name}</option>
+                `)
     }
 }
 
-function setCategoryToTable(category) {
-    var tableOfCategories = $("#elements");
-    tableOfCategories.append('<tr>' +
-        '<td>' + category.id + '</td>' +
-        '<td>' + category.name + '</td>' +
-        '<td><button class="button" value="' + category.id + '">Вибрати</button></td>' +
-        '</tr>');
+function appendCategoriesToContainerCreate(categories) {
+    let $container = $('#categoryName');
+    $container.html('');
+    for (let category of categories) {
+        $container.append(`
+                    <option value="${category.id}">${category.name}</option>
+                `)
+    }
 }
 
-function setActionOnSelectCategoryButtons() {
-    $(".button").each(function (index) {
-        $(this).click(function () {
-            var id = $(this).val();
-            $('#categoryId').val(id);
-            $('#categoryIdUpdate').val(id);
-            getCategoryById(id);
-            document.getElementById('modalCategory').style.display = "none";
-            if (!(document.getElementById('myModal').style.display === "block")) {
-                if(document.getElementById('modalUpdate').style.display === "none"){
-                    document.getElementById('modalUpdate').style.display = "block";
-                }
-            }
-        })
-    })
+function appendCategoriesToContainerUpdate(categories) {
+    let $container = $('#categoryNameUpdate');
+    $container.html('');
+    for (let category of categories) {
+        $container.append(`
+                    <option name="${category.name}" value="${category.id}">${category.name}</option>
+                `)
+    }
 }
+
+// function setCategoriesToTable(categories) {
+//     $('#elements').html('');
+//     for (var i = 0; i < categories.length; i++) {
+//         setCategoryToTable(categories[i]);
+//     }
+// }
+
+// function setCategoryToTable(category) {
+//     var tableOfCategories = $("#elements");
+//     tableOfCategories.append('<tr>' +
+//         '<td>' + category.id + '</td>' +
+//         '<td>' + category.name + '</td>' +
+//         '<td><button class="button" value="' + category.id + '">Вибрати</button></td>' +
+//         '</tr>');
+// }
+
+// function setActionOnSelectCategoryButtons() {
+//     $(".button").each(function (index) {
+//         $(this).click(function () {
+//             var id = $(this).val();
+//             $('#categoryId').val(id);
+//             $('#categoryIdUpdate').val(id);
+//             getCategoryById(id);
+//             document.getElementById('modalCategory').style.display = "none";
+//             if (!(document.getElementById('myModal').style.display === "block")) {
+//                 if(document.getElementById('modalUpdate').style.display === "none"){
+//                     document.getElementById('modalUpdate').style.display = "block";
+//                 }
+//             }
+//         })
+//     })
+// }
 
 function setModalConfiguration() {
     // Get the modal
@@ -295,41 +341,41 @@ function setModalConfiguration() {
     };
 }
 
-function setModalCategoryConfiguration() {
-    // Get the modal
-    var modalCategory = document.getElementById('modalCategory');
-    var modalUpdate = document.getElementById('modalUpdate');
-
-    // Get the button that opens the modal
-    var btn = document.getElementById("selectCategory");
-    var btn2 = document.getElementById("selectCategoryUpdate");
-
-    // Get the <span> element that closes the modal
-    var span = document.getElementById("closeModalCategory");
-
-    // When the user clicks the button, open the modal
-    btn.onclick = function () {
-        modalCategory.style.display = "block";
-        getAllCategories();
-    };
-    btn2.onclick = function () {
-        modalCategory.style.display = "block";
-        modalUpdate.style.display = "none";
-        getAllCategories();
-    };
-
-    // When the user clicks on <span> (x), close the modal
-    span.onclick = function () {
-        modalCategory.style.display = "none";
-    };
-
-    // When the user clicks anywhere outside of the modal, close it
-    window.onclick = function (event) {
-        if (event.target == modalCategory) {
-            modalCategory.style.display = "none";
-        }
-    };
-}
+// function setModalCategoryConfiguration() {
+//     // Get the modal
+//     var modalCategory = document.getElementById('modalCategory');
+//     var modalUpdate = document.getElementById('modalUpdate');
+//
+//     // Get the button that opens the modal
+//     var btn = document.getElementById("selectCategory");
+//     var btn2 = document.getElementById("selectCategoryUpdate");
+//
+//     // Get the <span> element that closes the modal
+//     var span = document.getElementById("closeModalCategory");
+//
+//     // When the user clicks the button, open the modal
+//     btn.onclick = function () {
+//         modalCategory.style.display = "block";
+//         getAllCategories();
+//     };
+//     btn2.onclick = function () {
+//         modalCategory.style.display = "block";
+//         modalUpdate.style.display = "none";
+//         getAllCategories();
+//     };
+//
+//     // When the user clicks on <span> (x), close the modal
+//     span.onclick = function () {
+//         modalCategory.style.display = "none";
+//     };
+//
+//     // When the user clicks anywhere outside of the modal, close it
+//     window.onclick = function (event) {
+//         if (event.target == modalCategory) {
+//             modalCategory.style.display = "none";
+//         }
+//     };
+// }
 
 //конфіг для модального вікна оновлення
 function setModalUpdateConfiguration() {

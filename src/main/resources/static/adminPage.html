@@ -2,23 +2,44 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Головна</title>
+    <title>Адміністратор</title>
     <link rel="stylesheet" href="css/main.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 </head>
 <body>
+<div id="wrapper">
+    <header>
+        <ul id="navbar">
+            <li><a href="/">Головна</a></li>
+            <li><a href="#">Новини</a></li>
+            <li><a href="#">Послуги</a>
+                <ul>
+                    <li><a href="/all-products">Всі послуги</a></li>
+                    <li><a href="#">Перукарські послуги</a></li>
+                    <li><a href="#">Візаж</a></li>
+                    <li><a href="#">Манікюр</a></li>
+                </ul>
+            </li>
+            <li><a href="#">Про нас</a></li>
+            <li><a href="/admin">Адміністратор</a></li>
+            <li><a href="/login">Увійти</a></li>
+        </ul>
+    </header>
 
-    <div class="menu">
-        <a href="/"><button class="menu-button" id="openMain">Головна</button></a>
-        <a href="/admin"><button class="menu-button" id="openAdmin">Адміністратор</button></a>
-        <a href="/login"><button class="menu-button" id="openSignIn">Увійти</button></a>
-    </div>
-    <br>
-    <div class="menu">
-        <a href="/create-product"><button class="menu-button" id="openCreateProduct">Створити послугу</button></a>
-<!--        <a href="/update-product"><button class="menu-button" id="openUpdateProduct">Оновити послугу</button></a>-->
-        <a href="/create-category"><button class="menu-button" id="openCreateCategory">Створити категорію</button></a>
-    </div>
+    <aside>
+    </aside>
+
+    <main>
+        <div class="menu">
+            <a href="/create-product"><button class="menu-button" id="openCreateProduct">Керувати послугами</button></a>
+            <!--        <a href="/update-product"><button class="menu-button" id="openUpdateProduct">Оновити послугу</button></a>-->
+            <a href="/create-category"><button class="menu-button" id="openCreateCategory">Керувати категоріями</button></a>
+        </div>
+    </main>
+
+    <footer>
+    </footer>
+</div>
 
 <script src="script.js"></script>
 </body>

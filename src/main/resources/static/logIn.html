@@ -9,28 +9,51 @@
     <title>Авторизація</title>
 </head>
 <body>
-<div class="menu">
-    <a href="/"><button class="menu-button" id="openMain">Головна</button></a>
-    <a href="/admin"><button class="menu-button" id="openAdmin">Адміністратор</button></a>
-    <a href="/login"><button class="menu-button" id="openSignIn">Увійти</button></a>
-</div>
-<div class="login-page">
-    <div class="form">
-        <form class="register-form">
-            <input type="text" placeholder="Ім'я"/>
-            <input type="text" placeholder="номер телефону"/>
-            <input type="text" placeholder="адреса електронної пошти"/>
-            <input type="password" placeholder="пароль"/>
-            <button>Створити</button>
-            <p class="message">Вже зареєстровані? <a href="#"> Увійти</a></p>
-        </form>
-        <form class="login-form">
-            <input type="text" placeholder="номер телефону чи е-мейл"/>
-            <input type="password" placeholder="пароль"/>
-            <button>Увійти</button>
-            <p class="message">Якщо ви не зараєстровані? <a href="#"> <br>Створити користувача</a></p>
-        </form>
-    </div>
+<div id="wrapper">
+    <header>
+        <ul id="navbar">
+            <li><a href="/">Головна</a></li>
+            <li><a href="#">Новини</a></li>
+            <li><a href="#">Послуги</a>
+                <ul>
+                    <li><a href="/all-products">Всі послуги</a></li>
+                    <li><a href="#">Перукарські послуги</a></li>
+                    <li><a href="#">Візаж</a></li>
+                    <li><a href="#">Манікюр</a></li>
+                </ul>
+            </li>
+            <li><a href="#">Про нас</a></li>
+            <li><a href="/admin">Адміністратор</a></li>
+            <li><a href="/login">Увійти</a></li>
+        </ul>
+    </header>
+
+    <aside>
+    </aside>
+
+    <main>
+        <div class="login-page">
+            <div class="form">
+                <form class="register-form">
+                    <input type="text" placeholder="Ім'я"/>
+                    <input type="text" placeholder="номер телефону"/>
+                    <input type="text" placeholder="адреса електронної пошти"/>
+                    <input type="password" placeholder="пароль"/>
+                    <button>Створити</button>
+                    <p class="message">Вже зареєстровані? <a href="#"> Увійти</a></p>
+                </form>
+                <form class="login-form">
+                    <input type="text" placeholder="номер телефону чи е-мейл"/>
+                    <input type="password" placeholder="пароль"/>
+                    <button>Увійти</button>
+                    <p class="message">Якщо ви не зараєстровані? <a href="#"> <br>Створити користувача</a></p>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+    </footer>
 </div>
 <script>
     $('.message a').click(function(){
