@@ -55,6 +55,12 @@ form, #products, #categories, #categoriesAll {
     width: 100%;
 }
 
+/*.container {*/
+/*    display: flex;*/
+/*    justify-content: space-evenly;*/
+/*    flex-wrap: wrap;*/
+/*}*/
+
 #navbar ul{
     display: none;
     background-color: #f90;

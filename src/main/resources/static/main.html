@@ -16,7 +16,22 @@
 
         a {
             text-decoration: none; /* Отменяем подчеркивание у ссылки */
-            color: rgba(38,83,106,0.91);
+            /*color: rgba(10, 12, 20, 0.91);*/
+            width: 100%;
+
+        }
+
+        .product-timeMinutes,.product-price ,#h3 {text-align: center;}
+
+        #h3 {
+
+            margin: auto;
+            text-shadow: 1px 1px 2px #82c0ff;
+        }
+
+        #header-item:hover {
+            /*text-decoration: underline; !* Делает ссылку подчеркнутой при наведении на нее курсора *!*/
+            color: #450859; /* Цвет ссылки */
         }
 
         .controllers {
@@ -105,15 +120,33 @@
 <!--                    <li><a href="/login">Увійти</a></li>-->
 <!--                </ul>-->
 <!--            </nav>-->
+<!--            <ul id="navbar">-->
+<!--                <li><a href="/">Головна</a></li>-->
+<!--                <li><a href="#">Новини</a></li>-->
+<!--                <li><a href="#">Послуги</a>-->
+<!--                    <ul id="sections">-->
+<!--                        <li><a href="/all-products">Всі послуги</a></li>-->
+<!--                        <li><a href="#">Перукарські послуги</a></li>-->
+<!--                        <li><a href="#">Візаж</a></li>-->
+<!--                        <li><a href="#">Манікюр</a></li>-->
+<!--                    </ul>-->
+<!--                </li>-->
+<!--                <li><a href="#">Про нас</a></li>-->
+<!--                <li><a href="/admin">Адміністратор</a></li>-->
+<!--                <li><a href="/login">Увійти</a></li>-->
+<!--            </ul>-->
+
             <ul id="navbar">
                 <li><a href="/">Головна</a></li>
                 <li><a href="#">Новини</a></li>
-                <li><a href="#">Послуги</a>
+                <li><a href="">Послуги</a>
                     <ul>
                         <li><a href="/all-products">Всі послуги</a></li>
-                        <li><a href="#">Перукарські послуги</a></li>
-                        <li><a href="#">Візаж</a></li>
-                        <li><a href="#">Манікюр</a></li>
+                        <ul id="sections">
+<!--                            <li><a href="#">Перукарські послуги</a></li>-->
+<!--                            <li><a href="#">Візаж</a></li>-->
+<!--                            <li><a href="#">Манікюр</a></li>-->
+                        </ul>
                     </ul>
                 </li>
                 <li><a href="#">Про нас</a></li>
@@ -131,125 +164,11 @@
         </main>
 
         <footer>
+            <h3 id="h3"></h3>
         </footer>
     </div>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script>
-        let mainUrl = "http://localhost:8080";
-        // let mainUrl = "http://localhost:8000";
-
-        makeRequestProduct();
-        // makeRequestCategory();
-
-        // $('#pagination-confirm').click(makeRequest);
-
-        $('#page').change(makeRequestProduct);
-        $('#size').change(makeRequestProduct);
-        $('#direction').change(makeRequestProduct);
-        $('#fieldName').change(makeRequestProduct);
-        $('#categoriesId').change(makeRequestProduct);
-
-        function makeRequestProduct() {
-            let page = $('#page').val() - 1;
-            let size = $('#size').val();
-            let direction = $('#direction').val();
-            let fieldName = $('#fieldName').val();
-            let categoriesId = $('#categoriesId').val();
-            $.ajax({
-                // url: mainUrl + "/product/page/filter?direction=" + direction + "&fieldName=" + fieldName + "&page=" + page + "&size=" + size + "&categoriesId=" + categoriesId,
-                // url: mainUrl + "/product/page/?direction=" + direction + "&fieldName=" + fieldName + "&page=" + page + "&size=" + size + "&categoriesId=" + categoriesId,
-                url: mainUrl + "/section/page?direction=ASC&fieldName=name&page=0&size=100",
-                type: 'GET',
-                contentType: 'application/json',
-                success: function (res) {
-                    appendProductsToContainer(res.data)
-                },
-                error: function (e) {
-                    console.log(e)
-                }
-            })
-        }
-        //
-        function appendProductsToContainer(categories) {
-            let $container = $('.container');
-            $container.html('');
-            for (let category of categories) {
-                let img = category.pathToImage ?
-                    mainUrl + '/img/' + category.pathToImage
-                    : 'http://denrakaev.com/wp-content/uploads/2015/03/no-image.png';
-                $container.append(`
-                    <div class="product">
-                        <button class="head" onclick="makeRequestCategory(${category.id})">${category.name}</button>
-                        <img class="product-image" src="${img}">
-                    </div>
-                `)
-            }
-        }
-        // makeRequestCategory(${category.id})
-        function makeRequestCategory(id) {
-            $.ajax({
-                url: mainUrl + "/category/page?direction=ASC&fieldName=name&page=0&size=100&sectionsId=" + id,
-                type: 'GET',
-                contentType: 'application/json',
-                success: function (res) {
-                    appendCategoriesToContainer(res.data)
-                },
-                error: function (e) {
-                    console.log(e)
-                }
-            })
-        }
-
-        function appendCategoriesToContainer(categories) {
-            let $container = $('.container');
-            $container.html('');
-            for (let category of categories) {
-                let img = category.pathToImage ?
-                    mainUrl + '/img/' + category.pathToImage
-                    : 'http://denrakaev.com/wp-content/uploads/2015/03/no-image.png';
-                $container.append(`
-                    <div class="product">
-                        <button class="head" onclick="makeRequestProducts(${category.id})">${category.name}</button>
-                            <img class="product-image" src="${img}">
-                    </div>
-                `)
-            }
-        }
-
-        function makeRequestProducts(id) {
-            $.ajax({
-                // url: mainUrl + "/category/page?direction=ASC&fieldName=name&page=0&size=100&sectionsId=" + id,
-                // url: mainUrl + "/product/page/filter?direction=" + direction + "&fieldName=" + fieldName + "&page=" + page + "&size=" + size + "&categoriesId=" + categoriesId,
-                // url: mainUrl + "/product/page/filter?&direction=asc&fieldName=name&page=0&size=20&categoriesId=" + id,
-                url: mainUrl + "/product/page/filter?categoriesId=" + id + "&direction=ASC&fieldName=name&page=0&size=100",
-                type: 'GET',
-                contentType: 'application/json',
-                success: function (res) {
-                    appendCategoriesToContainers(res.data)
-                },
-                error: function (e) {
-                    console.log(e)
-                }
-            })
-        }
-
-        function appendCategoriesToContainers(categories) {
-            let $container = $('.container');
-            $container.html('');
-            for (let category of categories) {
-                let img = category.pathToImage ?
-                    mainUrl + '/img/' + category.pathToImage
-                    : 'http://denrakaev.com/wp-content/uploads/2015/03/no-image.png';
-                $container.append(`
-                    <div class="product">
-                        <button class="head">${category.name}</button>
-                        <img class="product-image" src="${img}">
-                    </div>
-                `)
-            }
-        }
-
-    </script>
+<!--    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>-->
+    <script src="mainScript.js"></script>
 </body>
 </html>
