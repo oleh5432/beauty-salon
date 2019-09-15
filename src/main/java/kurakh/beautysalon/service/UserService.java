@@ -120,7 +120,7 @@ public class UserService  implements UserDetailsService {
 
         UserRequestLogin userRequestLogin = new UserRequestLogin();
 
-        user.setUsername(username);
+        userRequestLogin.setUsername(username);
         userRequestLogin.setPassword(encoder.encode(request.getPassword()));
 
         return login(userRequestLogin);
