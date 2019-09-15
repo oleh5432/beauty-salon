@@ -7,17 +7,19 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
 @Getter @Setter
-public class UserRequest {
+public class UserRequestLogin {
+
+//    @NotBlank
+//    private String name;
+//
+//    private String phoneNumber;
+//
+//    private String email;
 
     @NotBlank
-    private String name;
-
-    private String phoneNumber;
-
-    private String email;
-
     private String username; //login
 
     @Size(min = 4, max = 30)
     private String password;
+
 }

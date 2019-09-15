@@ -1,16 +1,21 @@
 package kurakh.beautysalon.controller;
 
 import kurakh.beautysalon.dto.request.UserRequest;
+import kurakh.beautysalon.dto.request.UserRequestLogin;
+import kurakh.beautysalon.dto.response.AuthenticationResponse;
 import kurakh.beautysalon.dto.response.DataResponse;
 import kurakh.beautysalon.dto.response.UserResponse;
 import kurakh.beautysalon.exception.WrongInputDataException;
 import kurakh.beautysalon.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
+@CrossOrigin
 @RestController
 @RequestMapping("/user")
 public class UserController {
@@ -18,10 +23,10 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @PostMapping
-    public UserResponse save(@RequestBody UserRequest userRequest) throws WrongInputDataException {
-        return userService.save(userRequest);
-    }
+//    @PostMapping
+//    public UserResponse save(@RequestBody UserRequest userRequest) throws WrongInputDataException {
+//        return userService.save(userRequest);
+//    }
 
     @GetMapping
     public List<UserResponse> findAll() {
@@ -48,6 +53,35 @@ public class UserController {
     @DeleteMapping
     public void delete(@RequestParam Long id) throws WrongInputDataException {
         userService.delete(id);
+    }
+
+    @PostMapping("/login")
+    public AuthenticationResponse login(@Valid @RequestBody UserRequestLogin request) {
+        return userService.login(request);
+    }
+
+    @PostMapping("/register")
+    public AuthenticationResponse register(@Valid @RequestBody UserRequest request) {
+        return userService.register(request);
+    }
+
+    @GetMapping("/checkToken")
+    public void checkToken() {
+    }
+
+
+    @GetMapping("/secured")
+    public void test() {
+    }
+
+    @PreAuthorize("hasAnyAuthority('ADMIN')")
+    @GetMapping("/secured1")
+    public void test1() {
+    }
+
+    @PreAuthorize("hasAnyRole('ADMIN')")
+    @GetMapping("/secured2")
+    public void test2() {
     }
 }
 

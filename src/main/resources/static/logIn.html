@@ -37,18 +37,18 @@
         <div class="login-page">
             <div class="form">
                 <form class="register-form">
-                    <input type="text" placeholder="Ім'я"/>
-                    <input type="text" placeholder="номер телефону"/>
-                    <input type="text" placeholder="адреса електронної пошти"/>
-                    <input type="text" placeholder="логін"/>
-                    <input type="password" placeholder="пароль"/>
-                    <button>Створити</button>
+                    <input type="text" id="name-r" placeholder="Ім'я"/>
+                    <input type="text" id="phoneNumber-r" placeholder="номер телефону"/>
+                    <input type="text" id="email-r" placeholder="адреса електронної пошти"/>
+                    <input type="text" id="login-r" placeholder="логін"/>
+                    <input type="password" id="password-r" placeholder="пароль"/>
+                    <button id="register-btn">Створити</button>
                     <p class="message">Вже зареєстровані? <a href="#"> Увійти</a></p>
                 </form>
                 <form class="login-form">
-                    <input type="text" placeholder="логін"/>
-                    <input type="password" placeholder="пароль"/>
-                    <button>Увійти</button>
+                    <input type="text" id="login-l" placeholder="логін"/>
+                    <input type="password" id="password-l" placeholder="пароль"/>
+                    <button id="login-btn">Увійти</button>
                     <p class="message">Якщо ви не зараєстровані? <a href="#"> <br>Створити користувача</a></p>
                 </form>
             </div>
@@ -62,6 +62,78 @@
     $('.message a').click(function(){
         $('form').animate({height: "toggle", opacity: "toggle"}, "slow");
     });
+
+    // const API_URL = "http://localhost:8080";
+    let mainUrl = "http://localhost:8080";
+
+
+    setActionOnRegisterBtn();
+    setActionOnLoginBtn();
+
+
+    window.localStorage.setItem('token', 'Bearer ');
+
+
+
+    function setActionOnRegisterBtn() {
+        $("#register-btn").click(function(){
+            let user = {
+                "name": $("#name").val(),
+                "phoneNumber": $("#phoneNumber").val(),
+                "email": $("#email").val(),
+                "login": $("#login").val(),
+                "password": $("#password").val()
+            };
+
+            $.ajax({
+                url: mainUrl + "/user/register",
+                type: "POST",
+                contentType: "application/json",
+                data: JSON.stringify(user),
+                success: function (data) {
+                    console.log(data);
+                    location.reload();
+                },
+                error: function (error) {
+                    console.log(error);
+                }
+            });
+        });
+    }
+
+    function setActionOnLoginBtn() {
+        $("#login-btn").click(function(){
+            $.ajax({
+                url: mainUrl + "/user/login",
+                type: "POST",
+                contentType: "application/json",
+                data: JSON.stringify(user),
+                success: function (data) {
+                    console.log(data);
+                    // console.log('ok2');
+                    location.reload();
+                },
+                error: function (error) {
+                    console.log(error);
+                }
+            });
+        });
+    }
+
+    // $.ajax({
+    //     url: "http://localhost:8080/user/secured2",
+    //     type: "GET",
+    //     headers:{"Authorization": window.localStorage.getItem('token')},
+    //     success: function (data) {
+    //         console.log('ok2');
+    //         // location.reload();
+    //     },
+    //     error: function (error) {
+    //         console.log(error);
+    //     }
+    // });
+
+
 </script>
 </body>
 </html>
