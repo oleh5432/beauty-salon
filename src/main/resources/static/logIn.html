@@ -66,23 +66,17 @@
     // const API_URL = "http://localhost:8080";
     let mainUrl = "http://localhost:8080";
 
-
     setActionOnRegisterBtn();
     setActionOnLoginBtn();
-
-
-    window.localStorage.setItem('token', 'Bearer ');
-
-
 
     function setActionOnRegisterBtn() {
         $("#register-btn").click(function(){
             let user = {
-                "name": $("#name").val(),
-                "phoneNumber": $("#phoneNumber").val(),
-                "email": $("#email").val(),
-                "login": $("#login").val(),
-                "password": $("#password").val()
+                "name": $("#name-r").val(),
+                "phoneNumber": $("#phoneNumber-r").val(),
+                "email": $("#email-r").val(),
+                "username": $("#login-r").val(),
+                "password": $("#password-r").val()
             };
 
             $.ajax({
@@ -103,15 +97,19 @@
 
     function setActionOnLoginBtn() {
         $("#login-btn").click(function(){
+            let user = {
+                "username": $("#login-l").val(),
+                "password": $("#password-l").val()
+            };
             $.ajax({
                 url: mainUrl + "/user/login",
                 type: "POST",
                 contentType: "application/json",
                 data: JSON.stringify(user),
                 success: function (data) {
-                    console.log(data);
-                    // console.log('ok2');
-                    location.reload();
+                    console.log('ok22222');
+                    window.localStorage.setItem('token', 'Bearer ' + data.token);
+                    goToOtherPage(mainUrl);
                 },
                 error: function (error) {
                     console.log(error);
@@ -120,6 +118,47 @@
         });
     }
 
+    function goToOtherPage(url) {
+        $.ajax({
+            url: url,
+            type: "GET",
+            headers:{"Authorization": window.localStorage.getItem('token')},
+            success: function (data) {
+                console.log('success replace');
+                location.replace(url);
+            },
+            error: function (error) {
+                console.log(error);
+            }
+            });
+    }
+
+    // $.ajax({
+    //     url: "http://localhost:8080/user/secured",
+    //     type: "GET",
+    //     headers:{"Authorization": window.localStorage.getItem('token')},
+    //     success: function (data) {
+    //         console.log('ok');
+    //         // location.reload();
+    //     },
+    //     error: function (error) {
+    //         console.log(error);
+    //     }
+    // });
+
+    // $.ajax({
+    //     url: "http://localhost:8080/user/secured1",
+    //     type: "GET",
+    //     headers:{"Authorization": window.localStorage.getItem('token')},
+    //     success: function (data) {
+    //         console.log('ok1');
+    //         // location.reload();
+    //     },
+    //     error: function (error) {
+    //         console.log(error);
+    //     }
+    // });
+    //
     // $.ajax({
     //     url: "http://localhost:8080/user/secured2",
     //     type: "GET",
