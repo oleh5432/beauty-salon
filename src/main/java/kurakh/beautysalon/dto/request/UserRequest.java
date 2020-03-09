@@ -16,6 +16,7 @@ public class UserRequest {
 
     private String email;
 
+    @NotBlank
     private String username; //login
 
     @Size(min = 4, max = 30)
