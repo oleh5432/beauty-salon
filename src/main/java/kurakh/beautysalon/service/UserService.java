@@ -70,7 +70,7 @@ public class UserService  implements UserDetailsService {
         );
     }
 
-    public UserResponse update(Long id, UserRequest userRequest) throws WrongInputDataException {
+    public UserResponse update(String id, UserRequest userRequest) throws WrongInputDataException {
         return new UserResponse(userRepository
                 .save(userRequestToUser(userRequest, findOneById(id))));
     }
@@ -88,19 +88,21 @@ public class UserService  implements UserDetailsService {
         return user;
     }
 
-
-
-    public void delete(Long id) {
+    public void delete(String id) {
         userRepository.deleteById(id);
     }
 
-    public User findOneById(Long id) throws WrongInputDataException {
+    public User findOneById(String id) throws WrongInputDataException {
         return userRepository.findById(id)
                 .orElseThrow(() -> new WrongInputDataException("Product with id '" + id + "' not exists"));
 
     }
 
+    public UserResponse findOneUserById(String id) throws WrongInputDataException {
+        return new UserResponse(userRepository.findById(id)
+                .orElseThrow(() -> new WrongInputDataException("Product with id '" + id + "' not exists")));
 
+    }
 
     public AuthenticationResponse register(UserRequest request) {
         String username = request.getUsername();
@@ -121,7 +123,7 @@ public class UserService  implements UserDetailsService {
         UserRequestLogin userRequestLogin = new UserRequestLogin();
 
         userRequestLogin.setUsername(username);
-        userRequestLogin.setPassword(encoder.encode(request.getPassword()));
+        userRequestLogin.setPassword((request.getPassword()));
 
         return login(userRequestLogin);
     }

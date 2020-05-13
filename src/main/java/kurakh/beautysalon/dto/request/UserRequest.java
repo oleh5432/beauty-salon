@@ -6,7 +6,8 @@ import lombok.Setter;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
-@Getter @Setter
+@Getter
+@Setter
 public class UserRequest {
 
     @NotBlank
@@ -16,6 +17,7 @@ public class UserRequest {
 
     private String email;
 
+    @NotBlank
     private String username; //login
 
     @Size(min = 4, max = 30)

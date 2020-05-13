@@ -1,7 +1,6 @@
 package kurakh.beautysalon.dto.response;
 
 import kurakh.beautysalon.entity.Order;
-import kurakh.beautysalon.entity.Product;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;

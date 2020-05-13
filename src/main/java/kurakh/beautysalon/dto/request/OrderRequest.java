@@ -9,7 +9,7 @@ import java.util.List;
 @Setter
 public class OrderRequest {
 
-    private Long userId;
+    private String userId;
 
     private List<Long> productId;
 }

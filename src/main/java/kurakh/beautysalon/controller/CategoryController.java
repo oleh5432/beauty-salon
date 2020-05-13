@@ -1,11 +1,8 @@
 package kurakh.beautysalon.controller;
 
-import kurakh.beautysalon.dto.request.CategoryFilterRequest;
 import kurakh.beautysalon.dto.request.CategoryRequest;
-import kurakh.beautysalon.dto.request.ProductFilterRequest;
 import kurakh.beautysalon.dto.response.CategoryResponse;
 import kurakh.beautysalon.dto.response.DataResponse;
-import kurakh.beautysalon.dto.response.ProductResponse;
 import kurakh.beautysalon.exception.WrongInputDataException;
 import kurakh.beautysalon.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;

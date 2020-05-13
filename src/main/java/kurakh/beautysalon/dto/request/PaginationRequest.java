@@ -6,7 +6,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
-@Getter @Setter
+@Getter
+@Setter
 public class PaginationRequest {
 
     private Integer page;

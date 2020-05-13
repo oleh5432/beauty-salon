@@ -16,12 +16,14 @@ public class HtmlPageController {
         return "allProducts.html";
     }
 
+//    @PreAuthorize("hasAnyAuthority('ADMIN')")
+//    @PreAuthorize("hasAnyRole('ADMIN')")
     @RequestMapping("/admin")
     public String adminPage(){
         return "adminPage.html";
     }
 
-    @RequestMapping("/login")
+    @RequestMapping("/user/login")
     public String logInPage(){
         return "logIn.html";
     }

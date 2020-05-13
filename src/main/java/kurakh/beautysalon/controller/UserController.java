@@ -9,7 +9,6 @@ import kurakh.beautysalon.exception.WrongInputDataException;
 import kurakh.beautysalon.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -33,6 +32,10 @@ public class UserController {
         return userService.findAll();
     }
 
+    @GetMapping("/id")
+    public UserResponse findOneUserById(@RequestParam String id) throws WrongInputDataException {
+        return userService.findOneUserById(id);
+    }
 
     @GetMapping("/page")
     public DataResponse<UserResponse> findAll(@RequestParam Integer page,
@@ -45,13 +48,13 @@ public class UserController {
     }
 
     @PutMapping
-    public UserResponse update(@RequestParam Long id,
+    public UserResponse update(@RequestParam String id,
                                    @RequestBody UserRequest userRequest) throws WrongInputDataException {
         return userService.update(id, userRequest);
     }
 
     @DeleteMapping
-    public void delete(@RequestParam Long id) throws WrongInputDataException {
+    public void delete(@RequestParam String id) throws WrongInputDataException {
         userService.delete(id);
     }
 
@@ -74,12 +77,12 @@ public class UserController {
     public void test() {
     }
 
-    @PreAuthorize("hasAnyAuthority('ADMIN')")
+//    @PreAuthorize("hasAnyAuthority('ADMIN')")
     @GetMapping("/secured1")
     public void test1() {
     }
 
-    @PreAuthorize("hasAnyRole('ADMIN')")
+//    @PreAuthorize("hasAnyRole('ADMIN')")
     @GetMapping("/secured2")
     public void test2() {
     }
