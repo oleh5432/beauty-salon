@@ -98,6 +98,7 @@ public class UserService  implements UserDetailsService {
 
     }
 
+
     public UserResponse findOneUserById(String id) throws WrongInputDataException {
         return new UserResponse(userRepository.findById(id)
                 .orElseThrow(() -> new WrongInputDataException("Product with id '" + id + "' not exists")));
